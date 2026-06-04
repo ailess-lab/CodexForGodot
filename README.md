@@ -4,7 +4,7 @@
 
 一个面向 **Codex + Godot** 的 AI 全链路游戏开发工作流工具包。
 
-本项目基于 `Claude Code Game Studios` 的 MIT 许可版本深度改造，重点重建了 Codex 生态下的 Skill、Hook、路由、多窗口协作、上下文恢复和项目状态管理。它不是一个游戏模板，也不是一个官方 OpenAI 项目，而是一套让 AI 参与游戏制作时更可控、更可审计、更容易恢复上下文的工作流底座。
+本项目基于 `Claude Code Game Studios` 的 MIT 许可版本深度改造，重点重建了 Codex 生态下的 Skill、Hook、路由、多窗口协作、上下文恢复和项目状态管理。它不是一个游戏模板，而是一套让 AI 参与游戏制作时更可控、更可审计、更容易恢复上下文的工作流底座。
 
 <p>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
@@ -16,13 +16,15 @@
 
 ## 项目定位
 
-这个 fork 的核心目标不是“增加更多命令”，而是把原本偏单窗口、偏 Claude Code 的 CCGS 工作流，改造成更适合 Codex 长期使用的体系：
+这个 fork 的核心目标不是“增加更多命令”，而是把原本偏单窗口、偏 Claude Code 的 CCGS 工作流，改造成更适合 Codex 长期使用的体系。
+
+原 CCGS 的优势是把游戏开发拆成很多专业 Skill 和 Agent；问题是当项目长期推进时，所有设计、开发、审查、交接都挤在一个长对话里，AI 很容易因为上下文过长、压缩、迁移窗口而丢失“为什么这么做”。本项目的改造重点，就是把这些关键状态从对话里抽出来，放进可读取、可更新、可审计的项目文件中。
 
 - **Codex-first**：文档、Hooks、Skill 路由、上下文恢复都围绕 Codex 使用方式整理。
-- **Godot-focused**：默认技术栈面向 Godot 4.x 和 GDScript，但不把题材、美术风格、2D/3D、输入方式写死。
-- **多窗口可恢复**：通过 `production/session-state/` 记录窗口 lane 状态，减少长上下文压缩或新窗口迁移时的信息丢失。
-- **Skill 可治理**：通过 route index、测试框架和 `/skill-create-ccgs` 管理新增、修改、合并、审计。
-- **Hook 轻量化**：Codex Hooks 作为提醒和恢复辅助，不把它们伪装成完整安全边界；更强的检查交给 Git hooks 和人工审查。
+- **Godot-focused**：默认技术栈面向 Godot 4.x 和 GDScript。
+- **多窗口可恢复**：把制作、开发、美术、QA、底层维护拆到不同 lane；每个窗口只维护自己的职责和状态。
+- **状态不绑死在对话里**：通过 `production/session-state/` 保存 lane 状态，让新窗口可以从文件恢复，而不是复制一整段旧聊天。
+- **Skill 可治理**：通过 route index、测试框架和 `/skill-create-ccgs` 管理新增、修改、合并、审计，避免越用越乱。
 
 ## 和原 CCGS 的差异
 
@@ -80,7 +82,16 @@ codex
 
 ## 多窗口使用方式
 
-本项目支持用 lane 文件把不同 Codex 窗口的职责分开。默认快捷 lane 是：
+本项目的多窗口不是“多开几个聊天框”，而是把职责拆成多个可恢复的工作 lane。每个 lane 都有自己的状态文件，窗口启动时读取它，窗口结束或切换任务前更新它。
+
+这样做比原本单窗口串行更适合长期项目：
+
+- 上下文更轻：开发窗口不需要背完整美术讨论，QA 窗口不需要背完整底层改造历史。
+- 交接更稳：重要结论写进 lane 文件，新窗口不依赖旧对话记忆。
+- 并行更清楚：哪个窗口负责范围、哪个窗口改代码、哪个窗口查质量，可以明确分开。
+- 冲突更容易发现：如果两个窗口要改同一批文件，先由制作总控 lane 做 owner 裁决。
+
+默认快捷 lane 是：
 
 | Lane | 建议职责 |
 |---|---|
@@ -90,7 +101,36 @@ codex
 | `D` | QA、错误、冒烟测试、证据审查 |
 | `Z` | CCGS 底层维护：Skill、Hook、路由、测试框架、体系文档 |
 
-这些只是快捷入口，不是硬编码岗位。你也可以注册自定义 lane，例如：
+推荐用法：
+
+1. 先开总控窗口：
+
+```text
+/window-start-ccgs A
+```
+
+2. 再按任务开专门窗口：
+
+```text
+/window-start-ccgs B
+/window-start-ccgs C
+/window-start-ccgs D
+/window-start-ccgs Z
+```
+
+3. 当窗口完成阶段性工作、准备关闭、切换任务、上下文变长、或涉及跨窗口交接时，更新 lane：
+
+```text
+/window-handoff-ccgs B
+```
+
+4. 下次恢复同一职责时，直接启动对应 lane：
+
+```text
+/window-start-ccgs B
+```
+
+这些只是快捷入口，不是硬编码岗位。你也可以创建自定义 lane，例如：
 
 ```text
 /window-start-ccgs ui-polish
@@ -103,6 +143,8 @@ codex
 production/session-state/
 ```
 
+多窗口协作的核心规则是：长期状态写在 lane 主体，最近交接点写在 handoff；不要把整个旧聊天复制到新窗口。
+
 ## Skill 管理
 
 新增或改造 Skill 时，建议优先运行：
@@ -111,15 +153,18 @@ production/session-state/
 /skill-create-ccgs
 ```
 
-它会判断这次需求应该是：
+`/skill-create-ccgs` 是本项目的 Skill 接入入口，不是通用的 `skill-creator`。它的职责不是“你想要一个 Skill，就立刻新建一个文件”，而是先判断这个需求应该怎样融入 CCGS 体系。
+
+它会判断这次需求属于：
 
 - 新增 Skill；
 - 修改现有 Skill；
 - 只补充 references；
 - 只更新 route index；
-- 或者因为职责不清而暂缓。
+- 合并到已有 Skill；
+- 或者因为职责不清、触发条件不稳定而暂缓。
 
-Skill 相关文件通常需要同时更新：
+一次合格的 Skill 接入通常要同时考虑：
 
 - `.agents/skills/<skill-name>/SKILL.md`
 - `CCGS Skill Testing Framework/skills/...`
@@ -127,17 +172,24 @@ Skill 相关文件通常需要同时更新：
 - `.codex/docs/skill-route-index.yaml`
 - 相关架构或流程文档
 
+也就是说，`/skill-create-ccgs` 解决的是三个问题：
+
+- **该不该新增**：避免把临时项目偏好、题材、美术风格、输入方式写成常驻 Skill。
+- **应该接到哪里**：如果只是路由不清，优先改 route index；如果只是材料不足，优先加 references；如果已有 Skill 能覆盖，优先修改或合并。
+- **怎么证明能用**：同步测试框架和 catalog，让新 Skill 之后能被 `/help`、route index 和 Skill 测试体系识别。
+
+示例：
+
+```text
+/skill-create-ccgs
+我想新增一个 Godot UI 生成 Skill，用于根据 UX spec 生成 Control 节点结构和 GDScript 绑定。
+```
+
+如果这个能力已经属于 `/team-ui`、`/ux-design` 或某个 Godot 开发 Skill 的范围，`/skill-create-ccgs` 应该优先建议修改现有 Skill 或 route index，而不是无条件新增命令。
+
 ## Godot 使用边界
 
-这个项目默认面向 Godot，但不会把你的游戏类型写死。以下内容不应作为常驻 Skill 约束：
-
-- 2D 或 3D；
-- 像素、手绘、写实、HD 等美术风格；
-- top-down、side-view、first-person 等视角；
-- 鼠标、触屏、键盘、手柄等输入方式；
-- RPG、防御、动作、叙事等题材或玩法类型。
-
-这些属于具体项目的可变设计事实，应该由 GDD、Art Bible、UX Spec、Story 或当前窗口状态记录，而不是写进底层 Skill 体系。
+这个项目默认面向 Godot，我们会在之后更新基于 Godot 的一些 Skill，例如 UI 生成、帧动画、自动测试。
 
 ## 公开发布边界
 
@@ -234,7 +286,7 @@ NOTICE.md
 - Hook 与 Git hook 的轻量治理；
 - 文档可理解性。
 
-不建议把具体游戏题材、固定美术风格或某个项目的临时设定写入底层 Skill。
+在提交时不建议把具体游戏题材、固定美术风格或某个项目的临时设定写入底层 Skill。
 
 ## License
 
