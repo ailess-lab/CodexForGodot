@@ -1,10 +1,14 @@
 # Codex Game Studios for Godot
 
-> Unofficial Codex-first, Godot-focused fork of Claude Code Game Studios.
+> Unofficial Codex-first, Godot-focused workflow kit adapted from Claude Code Game Studios.
 
-一个面向 **Codex + Godot** 的 AI 全链路游戏开发工作流工具包。
+[中文说明](#中文说明)
 
-本项目基于 `Claude Code Game Studios` 的 MIT 许可版本深度改造，重点重建了 Codex 生态下的 Skill、Hook、路由、多窗口协作、上下文恢复和项目状态管理。它不是一个游戏模板，而是一套让 AI 参与游戏制作时更可控、更可审计、更容易恢复上下文的工作流底座。
+Codex Game Studios for Godot is an AI-assisted game development workflow kit for **Codex + Godot**.
+
+It is not a game template. It is a project operating system for long-running AI-assisted game development: Skills, lightweight Hooks, route indexes, multi-window coordination, file-backed session state, release hygiene, and Skill governance.
+
+This project is a modified derivative of `Claude Code Game Studios`, released under the MIT License.
 
 <p>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
@@ -14,41 +18,31 @@
   <a href="https://godotengine.org/"><img src="https://img.shields.io/badge/Godot-4.x-478cbf" alt="Godot 4.x"></a>
 </p>
 
-## 项目定位
+## What This Fork Changes
 
-这个 fork 的核心目标不是“增加更多命令”，而是把原本偏单窗口、偏 Claude Code 的 CCGS 工作流，改造成更适合 Codex 长期使用的体系。
+The original CCGS is strong because it splits game development into many specialized Agents and Skills. Its default operating model, however, is closer to a single long Claude Code session. That becomes fragile during long Codex projects: design rationale, implementation context, QA evidence, and handoff notes can get buried inside one growing conversation.
 
-原 CCGS 的优势是把游戏开发拆成很多专业 Skill 和 Agent；问题是当项目长期推进时，所有设计、开发、审查、交接都挤在一个长对话里，AI 很容易因为上下文过长、压缩、迁移窗口而丢失“为什么这么做”。本项目的改造重点，就是把这些关键状态从对话里抽出来，放进可读取、可更新、可审计的项目文件中。
+This fork keeps the studio-style structure, but moves the long-lived project memory into files that Codex can read, update, audit, and recover from.
 
-- **Codex-first**：文档、Hooks、Skill 路由、上下文恢复都围绕 Codex 使用方式整理。
-- **Godot-focused**：默认技术栈面向 Godot 4.x 和 GDScript。
-- **多窗口可恢复**：把制作、开发、美术、QA、底层维护拆到不同 lane；每个窗口只维护自己的职责和状态。
-- **状态不绑死在对话里**：通过 `production/session-state/` 保存 lane 状态，让新窗口可以从文件恢复，而不是复制一整段旧聊天。
-- **Skill 可治理**：通过 route index、测试框架和 `/skill-create-ccgs` 管理新增、修改、合并、审计，避免越用越乱。
+- **Codex-first**: docs, Hooks, Skill routing, and context recovery are organized around Codex usage.
+- **Godot-focused**: the default technical stack is Godot 4.x and GDScript.
+- **Recoverable multi-window lanes**: production, development, art, QA, and platform maintenance can run in separate Codex windows.
+- **File-backed state**: `production/session-state/` stores lane state so new windows do not need a copied chat transcript.
+- **Governed Skills**: route index, test specs, catalog entries, and `/skill-create-ccgs` keep Skills from becoming an unmanaged command pile.
 
-## 和原 CCGS 的差异
+## Compared With Original CCGS
 
-| 范围 | 原 CCGS | 本项目 |
+| Area | Original CCGS | This Fork |
 |---|---|---|
-| 主要生态 | Claude Code | Codex |
-| 工作方式 | 单窗口串行优先 | 支持多窗口 lane 并行 |
-| 状态恢复 | 更依赖当前对话 | 文件化 session state |
-| Skill 管理 | 大量 slash command | route index + Skill 测试 + 专用创建流程 |
-| Hook 体系 | Claude/CC 语义为主 | Codex 语义与轻量提醒 |
-| 引擎倾向 | 多引擎模板 | Godot-first |
-| 项目约束 | 通用游戏开发框架 | 更适合 AI 全链路开发者长期维护 |
+| Primary ecosystem | Claude Code | Codex |
+| Work style | Single-window serial flow first | Multi-window lane workflow |
+| Context recovery | More dependent on the current conversation | File-backed session state |
+| Skill management | Many slash commands | Route index + Skill tests + CCGS-specific creation flow |
+| Hook model | Claude/CC-oriented semantics | Codex-oriented lightweight reminders |
+| Engine stance | Multi-engine template | Godot-first |
+| Best fit | General AI game studio framework | Long-running AI-first Godot development |
 
-## 包含内容
-
-| 类别 | 数量 | 说明 |
-|---|---:|---|
-| Agents | 49 | 覆盖制作、设计、程序、美术、音频、叙事、QA、发布等职责 |
-| Skills | 76 | 从 `/start`、`/help` 到设计、开发、审查、QA、发布和 CCGS 底层维护 |
-| Codex Hooks | 5 | 会话启动、上下文恢复、危险命令提醒、Skill 变更提醒等轻量机制 |
-| Git Hooks | 2+ | 本地提交前检查、Skill 变更提醒、窗口状态文件基础审计 |
-| Docs | 多份 | 架构、协作协议、Hook 改造、目录结构、上下文管理、发布说明 |
-
-## 快速开始
+## Quick Start
 
 ```powershell
 git clone https://github.com/<your-name>/codex-game-studios-godot.git my-game-studio
@@ -56,60 +50,66 @@ cd my-game-studio
 codex
 ```
 
-第一次进入项目时，建议运行：
+First session:
 
 ```text
 /start
 ```
 
-如果你不知道下一步该做什么：
+When you do not know what to do next:
 
 ```text
 /help
 ```
 
-如果你需要开启或恢复一个工作窗口：
-
-```text
-/window-start-ccgs Z
-```
-
-如果你准备结束当前窗口、切换任务、或担心上下文压缩：
-
-```text
-/window-handoff-ccgs Z
-```
-
-## 多窗口使用方式
-
-本项目的多窗口不是“多开几个聊天框”，而是把职责拆成多个可恢复的工作 lane。每个 lane 都有自己的状态文件，窗口启动时读取它，窗口结束或切换任务前更新它。
-
-这样做比原本单窗口串行更适合长期项目：
-
-- 上下文更轻：开发窗口不需要背完整美术讨论，QA 窗口不需要背完整底层改造历史。
-- 交接更稳：重要结论写进 lane 文件，新窗口不依赖旧对话记忆。
-- 并行更清楚：哪个窗口负责范围、哪个窗口改代码、哪个窗口查质量，可以明确分开。
-- 冲突更容易发现：如果两个窗口要改同一批文件，先由制作总控 lane 做 owner 裁决。
-
-默认快捷 lane 是：
-
-| Lane | 建议职责 |
-|---|---|
-| `A` | 制作总控、阶段、范围、跨窗口协调 |
-| `B` | Godot 开发、故事实现、测试 |
-| `C` | 美术、资源、视觉规范 |
-| `D` | QA、错误、冒烟测试、证据审查 |
-| `Z` | CCGS 底层维护：Skill、Hook、路由、测试框架、体系文档 |
-
-推荐用法：
-
-1. 先开总控窗口：
+Start or resume a work lane:
 
 ```text
 /window-start-ccgs A
 ```
 
-2. 再按任务开专门窗口：
+Update the lane before closing a window, switching tasks, or hitting long-context pressure:
+
+```text
+/window-handoff-ccgs A
+```
+
+Create or change a Skill through the CCGS governance flow:
+
+```text
+/skill-create-ccgs
+```
+
+## Multi-Window Lanes
+
+The multi-window system is not just "open more chats". A lane is a recoverable responsibility track with a state file. A Codex window reads its lane on start, works within that responsibility, and writes back a handoff when the work reaches a useful checkpoint.
+
+Why this is better for long-running projects:
+
+- **Less context weight**: the dev window does not need the full art discussion; the QA window does not need every platform-maintenance decision.
+- **More reliable handoff**: important decisions live in lane files, not only in chat history.
+- **Clearer parallel work**: production, development, art, QA, and platform maintenance have separate ownership.
+- **Easier conflict handling**: when two lanes need the same files, the producer lane decides ownership before edits collide.
+
+Default shortcut lanes:
+
+| Lane | Suggested Responsibility |
+|---|---|
+| `A` | Producer control: scope, phase, priorities, cross-window coordination |
+| `B` | Godot development: implementation, story work, tests |
+| `C` | Art and assets: visual direction, asset specs, production notes |
+| `D` | QA: bugs, smoke checks, test evidence, release readiness |
+| `Z` | Platform maintenance: Skills, Hooks, route index, test framework, system docs |
+
+Recommended flow:
+
+1. Start the producer lane first.
+
+```text
+/window-start-ccgs A
+```
+
+2. Start focused lanes as needed.
 
 ```text
 /window-start-ccgs B
@@ -118,175 +118,231 @@ codex
 /window-start-ccgs Z
 ```
 
-3. 当窗口完成阶段性工作、准备关闭、切换任务、上下文变长、或涉及跨窗口交接时，更新 lane：
+3. Update the lane before closing, switching tasks, long context compression, or cross-window handoff.
 
 ```text
 /window-handoff-ccgs B
 ```
 
-4. 下次恢复同一职责时，直接启动对应 lane：
+4. Resume the same responsibility from the lane file.
 
 ```text
 /window-start-ccgs B
 ```
 
-这些只是快捷入口，不是硬编码岗位。你也可以创建自定义 lane，例如：
+Shortcut lanes are not hard-coded roles. You can create custom lanes too:
 
 ```text
 /window-start-ccgs ui-polish
 /window-handoff-ccgs ui-polish
 ```
 
-窗口状态保存在：
+Lane state lives under:
 
 ```text
 production/session-state/
 ```
 
-多窗口协作的核心规则是：长期状态写在 lane 主体，最近交接点写在 handoff；不要把整个旧聊天复制到新窗口。
+Core rule: long-lived state belongs in the lane body; the latest handoff is only the most recent recovery point. Do not copy a whole old conversation into a new window.
 
-## Skill 管理
+## Skill Governance With `/skill-create-ccgs`
 
-新增或改造 Skill 时，建议优先运行：
+`/skill-create-ccgs` is the CCGS-specific entry point for adding or changing Skills. It is different from a generic skill creator: it first decides how the requested capability should enter the existing system.
 
-```text
-/skill-create-ccgs
-```
+It can decide that the right action is:
 
-`/skill-create-ccgs` 是本项目的 Skill 接入入口，不是通用的 `skill-creator`。它的职责不是“你想要一个 Skill，就立刻新建一个文件”，而是先判断这个需求应该怎样融入 CCGS 体系。
+- create a new Skill;
+- modify an existing Skill;
+- add references only;
+- update route index only;
+- merge into an existing Skill;
+- defer the change because the responsibility, trigger, or evidence boundary is unclear.
 
-它会判断这次需求属于：
-
-- 新增 Skill；
-- 修改现有 Skill；
-- 只补充 references；
-- 只更新 route index；
-- 合并到已有 Skill；
-- 或者因为职责不清、触发条件不稳定而暂缓。
-
-一次合格的 Skill 接入通常要同时考虑：
+A proper Skill integration usually considers:
 
 - `.agents/skills/<skill-name>/SKILL.md`
 - `CCGS Skill Testing Framework/skills/...`
 - `CCGS Skill Testing Framework/catalog.yaml`
 - `.codex/docs/skill-route-index.yaml`
-- 相关架构或流程文档
+- related architecture or workflow docs
 
-也就是说，`/skill-create-ccgs` 解决的是三个问题：
+The point is to answer three questions before writing a command:
 
-- **该不该新增**：避免把临时项目偏好、题材、美术风格、输入方式写成常驻 Skill。
-- **应该接到哪里**：如果只是路由不清，优先改 route index；如果只是材料不足，优先加 references；如果已有 Skill 能覆盖，优先修改或合并。
-- **怎么证明能用**：同步测试框架和 catalog，让新 Skill 之后能被 `/help`、route index 和 Skill 测试体系识别。
+- **Should this exist as a Skill?** Avoid turning temporary game taste, art style, input scheme, or project-specific assumptions into permanent commands.
+- **Where should it connect?** If routing is the issue, update the route index. If context is missing, add references. If an existing Skill owns the job, modify or merge instead.
+- **How do we prove it works?** Add or update test specs and catalog entries so `/help`, route routing, and Skill tests can see the new capability.
 
-示例：
+Example:
 
 ```text
 /skill-create-ccgs
-我想新增一个 Godot UI 生成 Skill，用于根据 UX spec 生成 Control 节点结构和 GDScript 绑定。
+I want a Godot UI generation Skill that turns a UX spec into Control node structure and GDScript bindings.
 ```
 
-如果这个能力已经属于 `/team-ui`、`/ux-design` 或某个 Godot 开发 Skill 的范围，`/skill-create-ccgs` 应该优先建议修改现有 Skill 或 route index，而不是无条件新增命令。
+If that capability already belongs under `/team-ui`, `/ux-design`, or a Godot implementation Skill, `/skill-create-ccgs` should recommend modifying the existing route or Skill instead of blindly creating another command.
 
-## Godot 使用边界
+## What's Included
 
-这个项目默认面向 Godot，我们会在之后更新基于 Godot 的一些 Skill，例如 UI 生成、帧动画、自动测试。
+| Category | Count | Notes |
+|---|---:|---|
+| Agents | 49 | Production, design, programming, art, audio, narrative, QA, release, and platform roles |
+| Skills | 76 | From `/start` and `/help` to design, implementation, review, QA, release, and CCGS platform maintenance |
+| Codex Hooks | 5 | Session start, context recovery, dangerous command reminders, Skill-change reminders, and related lightweight checks |
+| Git Hooks | 2+ | Local pre-commit checks, Skill-change reminders, and lane-state sanity checks |
+| Docs | Many | Architecture, collaboration protocol, Hook adaptation, directory structure, context management, and release docs |
 
-## 公开发布边界
+## Godot Boundary
 
-如果你把这个项目发布到 GitHub，建议公开的是 CCGS/Codex/Godot 工作流底座，而不是你的具体游戏项目。
+This fork is Godot-first. The default assumptions are Godot 4.x and GDScript.
 
-不要直接从当前工作仓库 `git add .` 发布。当前工作仓库可能同时包含你的游戏设计、原型、生产状态和私人上下文。推荐先生成一个独立 public release 目录：
+It does not permanently lock your game to a genre, art style, camera style, input mode, or platform. Those are project-level design facts and should stay out of permanent Skills unless a specific project deliberately creates a project-local Skill for them.
+
+Future Godot-focused Skills may cover areas such as UI generation, frame animation workflows, automated Godot tests, import settings, and editor-side validation.
+
+## Public Release Boundary
+
+If you publish this project to GitHub, publish the CCGS/Codex/Godot workflow base, not your private game project.
+
+Do not publish the current working repository with `git add .`. A working repo may contain game design drafts, prototypes, production state, local paths, private context, or credentials.
+
+Generate a clean public release directory instead:
 
 ```powershell
 pwsh -File scripts/build-public-release.ps1
 ```
 
-这个脚本采用白名单复制，只会复制明确适合公开的底座文件，并默认输出到仓库外一层：
+Default output:
 
 ```text
 ..\codex-game-studios-godot-public
 ```
 
-通常适合公开：
+The release builder uses a whitelist. It is meant to include the platform layer:
 
 - `.agents/skills/`
 - `.codex/agents/`
 - `.codex/docs/`
 - `.codex/hooks.json`
-- `.codex/hooks/` 中的 Codex-only 轻量 hook
-- `.codex/hooks/lib/`
+- `.codex/hooks/`
 - `.codex/rules/`
 - `.githooks/`
 - `CCGS Skill Testing Framework/`
-- `docs/` 中的 CCGS 架构、Hook、流程文档
+- public `docs/`
 - `AGENTS.md`
 - `LICENSE`
 - `NOTICE.md`
-- `scripts/build-public-release.ps1`
+- release scripts
 
-通常不建议公开：
+It should not include:
 
-- 你的真实游戏设计草稿；
-- 私人 session state；
-- 未公开的原型代码或素材；
-- API key、账号、路径、平台 SDK；
-- AI 生成素材的未确认授权来源。
+- private game design drafts;
+- private session state;
+- unreleased prototype code or assets;
+- API keys, accounts, SDK secrets, or local machine paths;
+- unverified AI asset sources.
 
-更详细的 GitHub 发布流程见：
+More publishing details:
 
 ```text
 docs/GITHUB-PUBLISHING.md
 ```
 
-可直接复制到 GitHub 的简介、Release notes 和社区发布文案见：
+GitHub listing copy and release notes:
 
 ```text
 docs/GITHUB-LISTING-COPY.md
 ```
 
-本机常驻上传通道：
+Machine-local publishing helper:
 
 ```powershell
 pwsh -File scripts/setup-github-auth.ps1
 pwsh -File scripts/publish-to-github.ps1
 ```
 
-## 许可与来源
+## License And Attribution
 
-本项目基于 `Claude Code Game Studios` 修改，原项目采用 MIT License。
+This project is a modified derivative of `Claude Code Game Studios`, which is released under the MIT License.
 
-原始版权声明必须保留：
+The original copyright notice must remain:
 
 ```text
 Copyright (c) 2026 Donchitos
 ```
 
-本项目的本地修改可以由你或你的组织另行声明版权。详细来源说明见：
+See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
+
+## Brand Notice
+
+This is an unofficial project.
+
+It is not affiliated with, endorsed by, sponsored by, or officially maintained by OpenAI, Anthropic, Claude, Codex, Godot, or the original CCGS author.
+
+Names such as `OpenAI`, `Codex`, `Claude`, `Anthropic`, and `Godot` belong to their respective owners and are used only to describe compatibility, origin, and intended usage.
+
+## Contributing
+
+Contributions are welcome, especially around:
+
+- Codex workflow stability;
+- Godot-first development experience;
+- Skill routing and test coverage;
+- multi-window context recovery;
+- lightweight Hook and Git hook governance;
+- documentation clarity.
+
+Please avoid baking temporary game themes, fixed art styles, or one project's short-term assumptions into permanent platform Skills.
+
+## 中文说明
+
+这个仓库的公开 README 采用英文优先，是为了让 GitHub 上的国际用户更容易理解和搜索；中文说明保留在这里，方便中文使用者快速掌握核心用法。
+
+### 项目定位
+
+这个 fork 的目标不是增加更多命令，而是把原本偏单窗口、偏 Claude Code 的 CCGS 工作流，改造成更适合 Codex 长期使用的体系。
+
+- **Codex-first**：文档、Hooks、Skill 路由、上下文恢复围绕 Codex 整理。
+- **Godot-focused**：默认面向 Godot 4.x 和 GDScript。
+- **多窗口可恢复**：把制作、开发、美术、QA、底层维护拆到不同 lane。
+- **状态文件化**：通过 `production/session-state/` 保存 lane 状态，减少长上下文压缩或换窗口时的信息丢失。
+- **Skill 可治理**：通过 route index、测试框架和 `/skill-create-ccgs` 管理新增、修改、合并和审计。
+
+### 多窗口怎么用
+
+推荐先开总控窗口：
 
 ```text
-NOTICE.md
+/window-start-ccgs A
 ```
 
-## 品牌声明
+再按需要开开发、美术、QA 或底层维护窗口：
 
-本项目是非官方项目。
+```text
+/window-start-ccgs B
+/window-start-ccgs C
+/window-start-ccgs D
+/window-start-ccgs Z
+```
 
-它不是 OpenAI、Anthropic、Claude、Codex 或原 CCGS 作者的官方项目，也不代表这些组织或个人的认可、赞助或背书。
+窗口完成阶段性工作、准备关闭、切换任务、上下文过长或需要交接时：
 
-`OpenAI`、`Codex`、`Claude`、`Anthropic`、`Godot` 等名称归各自权利方所有。本项目只在描述兼容性、改造来源和使用场景时提及这些名称。
+```text
+/window-handoff-ccgs B
+```
 
-## 贡献
+长期状态写在 lane 主体，最近恢复点写在 handoff。不要把整段旧对话复制到新窗口。
 
-欢迎提交 Issue、Discussion 或 Pull Request，但建议围绕以下方向：
+### `/skill-create-ccgs` 怎么用
 
-- Codex 工作流稳定性；
-- Godot-first 开发体验；
-- Skill 路由和测试覆盖；
-- 多窗口上下文恢复；
-- Hook 与 Git hook 的轻量治理；
-- 文档可理解性。
+新增或改造 Skill 时先运行：
 
-在提交时不建议把具体游戏题材、固定美术风格或某个项目的临时设定写入底层 Skill。
+```text
+/skill-create-ccgs
+```
+
+它会先判断应该新增 Skill、修改现有 Skill、补 references、更新 route index、合并到已有 Skill，还是因为职责不清暂缓。
+
+它的重点是让 Skill 融入当前 CCGS 体系，而不是无条件多加一个命令。
 
 ## License
 
