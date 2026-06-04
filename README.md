@@ -4,7 +4,7 @@
 
 一个面向 **Codex + Godot** 的 AI 全链路游戏开发工作流工具包。
 
-本项目基于 `Claude Code Game Studios` 的 MIT 许可版本深度改造，重点重建了 Codex 生态下的 Skill、Hook、路由、多窗口协作、上下文恢复和项目状态管理。它不是一个游戏模板，也不是一个官方 OpenAI 项目，而是一套让 AI 参与游戏制作时更可控、更可审计、更容易恢复上下文的工作流底座。
+本项目基于 `Claude Code Game Studios` 的 MIT 许可版本深度改造，重点重建了 Codex 生态下的 Skill、Hook、路由、多窗口协作、上下文恢复和项目状态管理。它不是一个游戏模板，而是一套让 AI 参与游戏制作时更可控、更可审计、更容易恢复上下文的工作流底座。
 
 <p>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
@@ -19,10 +19,9 @@
 这个 fork 的核心目标不是“增加更多命令”，而是把原本偏单窗口、偏 Claude Code 的 CCGS 工作流，改造成更适合 Codex 长期使用的体系：
 
 - **Codex-first**：文档、Hooks、Skill 路由、上下文恢复都围绕 Codex 使用方式整理。
-- **Godot-focused**：默认技术栈面向 Godot 4.x 和 GDScript，但不把题材、美术风格、2D/3D、输入方式写死。
+- **Godot-focused**：默认技术栈面向 Godot 4.x 和 GDScript。
 - **多窗口可恢复**：通过 `production/session-state/` 记录窗口 lane 状态，减少长上下文压缩或新窗口迁移时的信息丢失。
 - **Skill 可治理**：通过 route index、测试框架和 `/skill-create-ccgs` 管理新增、修改、合并、审计。
-- **Hook 轻量化**：Codex Hooks 作为提醒和恢复辅助，不把它们伪装成完整安全边界；更强的检查交给 Git hooks 和人工审查。
 
 ## 和原 CCGS 的差异
 
