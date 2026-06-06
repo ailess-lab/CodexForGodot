@@ -4,6 +4,8 @@
 
 Evolved from [Claude Code Game Studios](https://github.com/Donchitos/Claude-Code-Game-Studios). Codex-native. Godot-focused.
 
+[中文说明](README_ZH.md) · [Quick Start](#quick-start-5-minutes)
+
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="https://godotengine.org/"><img src="https://img.shields.io/badge/Godot-4.x-478cbf" alt="Godot"></a>
