@@ -59,9 +59,9 @@ lane，`/start` 会先引导创建最小 `A-producer`，再继续原本的 CCGS 
 | B-dev | 开发、测试、代码实现、故事推进 | `src/`、`tests/`、`production/epics/**` | `/dev-story`、`/code-review`、`/story-done` |
 | C-art | 美术、资源、视觉规格、资源审计 | `design/art/`、`design/assets/`、`assets/` | `/art-bible` |
 | D-qa | QA、缺陷、回归、测试证据 | `production/qa/`、`tests/`、test evidence | `/smoke-check`、`/story-done` |
-| Z-platform | CCGS 底层、Skill、Hook、路由、文档、工具链 | `.agents/skills/`、`.codex/`、`.githooks/`、`docs/ccgs-*` | `/window-ccgs Z`、`/window-ccgs update Z`、`/skill-create-ccgs` |
+| Z-platform | 框架适配、Skill、Hook、路由、文档、工具链 | `.agents/skills/`、`.codex/`、`.githooks/`、`docs/ccgs-*` | `/window-ccgs Z`、`/window-ccgs update Z`、`/skill-create-ccgs` |
 
-当前这个 Codex 窗口默认登记为 `Z-platform`：只处理项目底层体系，不直接推进游戏设计、美术生产或玩法代码，除非用户明确切换职责。
+当前这个 Codex 窗口默认登记为 `Z-platform`：负责把框架改得更好用、更符合当前用户、项目和团队习惯；不直接推进游戏设计、美术生产或玩法代码，除非用户明确切换职责。
 
 ## 与原 CCGS 动线的关系
 
@@ -115,7 +115,7 @@ Codex 多窗口后，动线变成：
 | 代码实现、tests、Story、code review 准备 | `B-dev` | 负责实现，但不能自证完成 |
 | 美术、资源规格、asset manifest、assets | `C-art` | 负责资源工件和资源标准 |
 | QA、bug、smoke、regression、test evidence | `D-qa` | 负责测试计划、证据和验收建议 |
-| CCGS 底层、Skill、Hook、route index、workflow docs | `Z-platform` | 负责底层体系，不接管玩法结论 |
+| 框架适配、Skill、Hook、route index、workflow docs | `Z-platform` | 负责让底层体系更贴合项目需求，不接管玩法结论 |
 | GDD、UX、architecture、长期专题设计 | 自定义 lane，例如 `systems-design`、`ux-design`、`architecture` | 根据当前 workstream 建 lane |
 | 一个问题跨多个 lane | `A-producer` | 先拆分 owner、顺序和 handoff |
 | 同一文件被多个 lane 占用 | 先 `/window-ccgs audit` | 解决 file conflict 后再继续写 |
@@ -203,7 +203,7 @@ Restart prompt: [新窗口接手时复制的一句话]
 /window-ccgs B   # 开发
 /window-ccgs C   # 美术/资源
 /window-ccgs D   # QA
-/window-ccgs Z   # CCGS 底层
+/window-ccgs Z   # 框架适配/底层维护
 /window-ccgs <lane-id>   # 自定义窗口
 ```
 
@@ -284,7 +284,7 @@ A/B/C/D/Z 的默认职责。
 - production/session-state/active.md
 - production/session-state/windows/Z-platform.md
 
-不要依赖旧对话。根据 Z-platform.md 的 Next step 继续，只处理 CCGS 底层、Skill、Hook、路由、测试框架和体系文档。
+不要依赖旧对话。根据 Z-platform.md 的 Next step 继续，只处理框架适配、Skill、Hook、路由、测试框架和体系文档，让框架更符合当前用户、项目和团队习惯。
 ```
 
 ## 日常使用流程

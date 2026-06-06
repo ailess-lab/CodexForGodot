@@ -1,6 +1,6 @@
 # Public Release Manifest
 
-Generated: 2026-06-06 14:44:02 +08:00
+Generated: 2026-06-06 14:51:55 +08:00
 Source: local working tree (path omitted)
 Output: generated public release directory (path omitted)
 
@@ -27,16 +27,11 @@ Included entries:
 - docs\COLLABORATIVE-DESIGN-PRINCIPLE.md
 - docs\engine-reference\godot
 - docs\engine-reference\README.md
-- docs\GITHUB-LISTING-COPY.md
-- docs\GITHUB-PUBLISHING.md
 - docs\WORKFLOW-GUIDE.md
 - LICENSE
 - NOTICE.md
 - OPS-CHANGELOG.md
 - README.md
-- scripts\build-public-release.ps1
-- scripts\publish-to-github.ps1
-- scripts\setup-github-auth.ps1
 - SECURITY.md
 - UPGRADING.md
 

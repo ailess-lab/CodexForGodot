@@ -65,7 +65,7 @@ Usage:
 /window-ccgs B                 # 开发
 /window-ccgs C                 # 美术/资源
 /window-ccgs D                 # QA
-/window-ccgs Z                 # CCGS 底层
+/window-ccgs Z                 # 框架适配/底层维护
 /window-ccgs <lane-id>         # 自定义窗口
 /window-ccgs update <lane-id>  # 更新/交接
 /window-ccgs checkpoint <lane-id> # 生成 checkpoint 提交建议
@@ -135,7 +135,7 @@ Verdict: READY
 - `B-dev`：代码实现、测试、Story、代码审查准备。
 - `C-art`：美术、资源规格、资产清单和资源审计。
 - `D-qa`：QA、缺陷、测试证据、冒烟和回归。
-- `Z-platform`：CCGS 底层、Skill、Hook、路由、测试框架和体系文档。
+- `Z-platform`：框架适配和底层维护，让 Skill、Hook、路由、测试框架和体系文档更符合当前用户、项目和团队习惯。
 - 自定义 lane：按用户目标或当前请求生成，不套用 A/B/C/D/Z。
 
 新建 lane 时同步准备 `production/session-state/active.md` 的 registry 更新草稿。

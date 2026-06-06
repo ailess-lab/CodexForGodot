@@ -115,7 +115,7 @@ Default shortcut lanes:
 | `B` | Godot development: implementation, story work, tests |
 | `C` | Art and assets: visual direction, asset specs, production notes |
 | `D` | QA: bugs, smoke checks, test evidence, release readiness |
-| `Z` | Platform maintenance: Skills, Hooks, route index, test framework, system docs |
+| `Z` | Platform customization: tune Skills, Hooks, routes, tests, and docs for your project |
 
 Recommended flow:
 
@@ -233,7 +233,7 @@ If that capability already belongs under `/art-bible`, `/design-system`, or `/de
 | Skills | 17 core | Older CCGS micro-skills are folded into core Skills and routed through `.codex/docs/skill-route-index.yaml` |
 | Codex Hooks | 5 | Session start, context recovery, dangerous command reminders, Skill-change reminders, and related lightweight checks |
 | Git Hooks | 2+ | Local pre-commit checks, checkpoint reminders, owner-domain warnings, and lane-state sanity checks |
-| Docs | Many | Architecture, collaboration protocol, checkpoint workflow, multi-window workflow, Hook adaptation, context management, and release docs |
+| Docs | Many | Architecture, collaboration protocol, checkpoint workflow, multi-window workflow, Hook adaptation, and context management |
 
 ## Godot Boundary
 
@@ -243,66 +243,17 @@ It does not permanently lock your game to a genre, art style, camera style, inpu
 
 Future Godot-focused Skills may cover areas such as UI generation, frame animation workflows, automated Godot tests, import settings, and editor-side validation.
 
-## Public Release Boundary
+## Framework Boundary
 
-If you publish this project to GitHub, publish the CCGS/Codex/Godot workflow base, not your private game project.
+This public package is the CCGS/Codex/Godot workflow base, not a private game project.
 
-Do not publish the current working repository with `git add .`. A working repo may contain game design drafts, prototypes, production state, local paths, private context, or credentials.
-
-Generate a clean public release directory instead:
-
-```powershell
-pwsh -File scripts/build-public-release.ps1
-```
-
-Default output:
-
-```text
-..\codex-game-studios-godot-public
-```
-
-The release builder uses a whitelist. It is meant to include the platform layer:
-
-- `.agents/skills/`
-- `.codex/agents/`
-- `.codex/docs/`
-- `.codex/hooks.json`
-- `.codex/hooks/`
-- `.codex/rules/`
-- `.githooks/`
-- `CCGS Skill Testing Framework/`
-- public `docs/`
-- `AGENTS.md`
-- `LICENSE`
-- `NOTICE.md`
-- release scripts
-
-It should not include:
+It does not include:
 
 - private game design drafts;
 - private session state;
 - unreleased prototype code or assets;
 - API keys, accounts, SDK secrets, or local machine paths;
 - unverified AI asset sources.
-
-More publishing details:
-
-```text
-docs/GITHUB-PUBLISHING.md
-```
-
-GitHub listing copy and release notes:
-
-```text
-docs/GITHUB-LISTING-COPY.md
-```
-
-Machine-local publishing helper:
-
-```powershell
-pwsh -File scripts/setup-github-auth.ps1
-pwsh -File scripts/publish-to-github.ps1
-```
 
 ## License And Attribution
 

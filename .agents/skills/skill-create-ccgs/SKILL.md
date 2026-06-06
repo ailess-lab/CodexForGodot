@@ -203,7 +203,7 @@ Skill，都必须先回答下面的问题。
 - `.agents/skills/help/SKILL.md`
 - `.agents/skills/start/SKILL.md`
 - Hooks 或 Git hooks
-- README / public release docs
+- README / workflow docs
 
 如果某项不改，必须说明“不改的理由”。例如 route index 已经覆盖、workflow 不进入主线、README 不需要用户入口。
 

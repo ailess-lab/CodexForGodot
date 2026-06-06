@@ -76,7 +76,7 @@ Default lanes:
 | `B` | Godot development, stories, code, tests |
 | `C` | Art, assets, visual identity, UX artifacts |
 | `D` | QA, smoke checks, bugs, release evidence |
-| `Z` | Platform maintenance, Skills, Hooks, docs, route index, test framework |
+| `Z` | Platform customization, Skills, Hooks, docs, route index, test framework |
 
 Lane state lives in `production/session-state/windows/`. Long-lived state belongs
 in the lane file. Handoffs are recovery points, not full chat transcripts.
@@ -297,24 +297,12 @@ existing core Skill, a route alias, or a direct reference file.
 
 ---
 
-## Public Release Boundary
+## Repository Boundary
 
-Do not publish the working game repository directly. Generate a clean public
-release directory:
-
-```powershell
-pwsh -File scripts/build-public-release.ps1
-```
-
-The builder copies the workflow platform layer and blocks private game content
-such as `design/`, `production/session-state/`, `prototypes/`, `src/`, `.git/`,
-and credential-looking files.
-
-Publishing details:
-
-```text
-docs/GITHUB-PUBLISHING.md
-```
+This workflow kit can live inside a working game repository, but the public
+framework package is framework-only. Private project content such as `design/`,
+`production/session-state/`, `prototypes/`, `src/`, local machine context, and
+credentials belongs to the local game project, not to the public framework kit.
 
 ---
 
