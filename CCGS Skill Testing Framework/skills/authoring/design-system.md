@@ -27,8 +27,8 @@ full/lean/solo gate branching.
 - [ ] Has at least two phase headings
 - [ ] Contains verdict keywords such as `APPROVED`, `NEEDS REVISION`,
   `MAJOR REVISION NEEDED`, `COMPLETE`, `CONCERNS`, or `BLOCKED`
-- [ ] Contains "May I write" language for skeletons, sections, indexes, logs,
-  reports, and registry updates
+- [ ] Contains package-level approval language for skeletons, sections, indexes,
+  logs, reports, and registry updates
 - [ ] Documents fixed Lean policy and states `CD-GDD-ALIGN` is not a phase gate
 - [ ] Links all three direct references
 - [ ] Does not require reading `.agents/skills-archive/` during normal use
@@ -53,7 +53,7 @@ full/lean/solo gate branching.
 2. Skill extracts explicit and implicit systems from the concept.
 3. Skill maps dependencies, detects circular dependencies, assigns priority and
    design order.
-4. Skill asks before writing `design/gdd/systems-index.md`.
+4. Skill asks for approval of the systems-index package before writing.
 5. Skill offers the first system from the design order.
 
 **Assertions:**
@@ -78,11 +78,11 @@ full/lean/solo gate branching.
 
 1. Skill reads concept, systems index, dependencies, registry, relevant GDDs,
    and engine context.
-2. Skill creates a skeleton only after approval.
-3. Skill authors required GDD sections one by one.
-4. Each section is drafted, approved, then written.
+2. Skill presents a complete GDD package before writing.
+3. Skill creates a skeleton after package approval.
+4. Sections are written incrementally inside the approved package.
 5. Skill runs internal alignment checks, not `CD-GDD-ALIGN` gate.
-6. Skill updates registry/session/systems-index only after separate approval.
+6. Skill updates registry/session/systems-index when included in the approved package; otherwise asks again.
 
 **Assertions:**
 
@@ -90,6 +90,7 @@ full/lean/solo gate branching.
 - [ ] Does not self-approve a GDD authored in the same session.
 - [ ] Existing dependency facts are not silently contradicted.
 - [ ] Acceptance criteria are testable.
+- [ ] Approval is package-level, not repeated for every section.
 
 ---
 
@@ -113,7 +114,7 @@ full/lean/solo gate branching.
 
 - [ ] No whole-file overwrite.
 - [ ] Placeholder replacement uses unique section context.
-- [ ] User approval is required per changed section.
+- [ ] User approval is required for the retrofit change package.
 
 ---
 

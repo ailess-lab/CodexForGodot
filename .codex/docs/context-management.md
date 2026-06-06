@@ -101,15 +101,20 @@ Task: Implement hitbox detection
 
 After any disruption (compaction, crash, `/clear`), read the state file first.
 
-### Incremental File Writing
+### Incremental File Writing Within An Approved Package
 
 When creating multi-section documents (design docs, architecture docs, lore entries):
 
-1. Create the file immediately with a skeleton (all section headers, empty bodies)
-2. Discuss and draft one section at a time in conversation
-3. Write each section to the file as soon as it's approved
-4. Update the session state file after each section
-5. After writing a section, previous discussion about that section can be safely
+1. First present and approve the complete document/package scope: purpose,
+   sections, design decisions to settle, files to write, and acceptance criteria.
+2. Create the file with a skeleton after that package is approved.
+3. Draft and write sections incrementally to protect context, but do not ask for
+   a new write approval for every section if the section stays inside the
+   approved package.
+4. Ask again only if a section changes direction, crosses scope, or introduces a
+   high-risk decision not covered by the package.
+5. Update the session state file after each meaningful section or milestone.
+6. After writing a section, previous discussion about that section can be safely
    compacted — the decisions are in the file
 
 This keeps the context window holding only the *current* section's discussion

@@ -15,7 +15,7 @@ Verified automatically by `/skill-create-ccgs` internal static check — no fixt
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings (## Phase N or numbered ## sections)
 - [ ] Contains verdict keywords: [list the ones expected, e.g., PASS, FAIL, CONCERNS]
-- [ ] Contains "May I write" collaborative protocol language (if skill writes files)
+- [ ] Contains package-level approval language (if skill writes files)
 - [ ] Has a next-step handoff at the end
 
 ---
@@ -39,7 +39,7 @@ systems-index.md exists. All MVP GDDs are present and individually reviewed."]
 - [ ] Skill reads [specific file] before producing output
 - [ ] Output includes verdict keyword [PASS/FAIL/etc.]
 - [ ] Output lists [specific content] from the fixture
-- [ ] Skill asks for approval before writing any file
+- [ ] Skill asks for approval of the full package or changeset before writing files
 
 ---
 
@@ -79,10 +79,11 @@ No files exist in design/gdd/."]
 
 ## Protocol Compliance
 
-- [ ] Uses "May I write" before all file writes
-- [ ] Presents findings or report before asking for write approval
+- [ ] Presents the full package, report, or changeset before asking for approval
+- [ ] Uses one approval for all low-risk writes inside the approved scope
+- [ ] Does not require repeated per-file or per-section confirmations unless risk justifies it
 - [ ] Ends with a recommended next step or follow-up skill
-- [ ] Never auto-creates files without explicit user approval
+- [ ] Never creates out-of-scope, destructive, publishing, commit, or high-risk files without explicit user approval
 - [ ] Does not skip phases or jump straight to a verdict without checking
 
 ---

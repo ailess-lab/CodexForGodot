@@ -51,13 +51,14 @@ project artifacts.
 必要时读取这些当前项目事实来源：
 
 - `AGENTS.md`
+- `.codex/docs/collaboration-profile.md`
 - `.codex/docs/technical-preferences.md`
 - `design/gdd/game-concept.md`
 - `design/gdd/systems-index.md`
 - `design/art/art-bible.md`
 - `design/ux/*.md`
 
-不要把当前设计事实写成永久路由假设，例如 2D/3D、美术风格、camera、genre、core loop、input method、platform。它们只能解释本次推荐。
+不要把当前设计事实写成永久路由假设，例如 2D/3D、美术风格、camera、genre、core loop、input method、platform、Codex 职能覆盖。它们只能解释本次推荐。
 
 推荐命令时，给出 route index 中的简短理由：
 

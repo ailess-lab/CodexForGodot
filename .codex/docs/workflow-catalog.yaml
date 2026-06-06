@@ -203,7 +203,7 @@ phases:
         artifact:
           glob: "production/epics/*/EPIC.md"
           min_count: 1
-        description: "Translate GDDs + ADRs into epics — one per architectural module. Run per layer: /sprint-plan layer: foundation, then /sprint-plan layer: core"
+        description: "Translate GDDs + ADRs into an approved epic package, grouped by architectural layer and module."
 
       - id: create-stories
         name: "Create Stories"
@@ -213,7 +213,7 @@ phases:
         artifact:
           glob: "production/epics/**/*.md"
           min_count: 2
-        description: "Break each epic into implementable story files. Run per epic: /sprint-plan [epic-slug]"
+        description: "Break approved epics into an implementable story package with blockers, acceptance criteria, and test evidence paths."
 
       - id: test-setup
         name: "Test Framework Setup"

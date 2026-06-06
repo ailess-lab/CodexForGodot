@@ -2,10 +2,11 @@
 
 ## Skill Summary
 
-`/brainstorm` is the guided concept ideation entrypoint. It produces
-`design/gdd/game-concept.md`, captures pillars, anti-pillars, core loop, player
-motivation, scope tiers, Godot fit, and a Visual Identity Anchor for
-`/art-bible`.
+`/brainstorm` is the concept-and-landing-package entrypoint. It produces
+`design/gdd/game-concept.md` and a complete package covering pillars,
+anti-pillars, core loop, player motivation, scope tiers, Godot fit, Visual
+Identity Anchor, first playable/validation scope, implementation/tool/resource
+plan, risks, and acceptance criteria.
 
 It also absorbs the concept-side value of the old `prototype` route. Prototype
 details live in `references/prototype-validation.md` and are loaded only when the
@@ -14,7 +15,7 @@ that a prototype question should be defined before GDD work.
 
 Review policy is fixed Lean. `CD-PILLARS`, `AD-CONCEPT-VISUAL`,
 `TD-FEASIBILITY`, and `PR-SCOPE` are not phase gates. The skill uses internal
-checks and direct user approval before writing.
+checks and package-level user approval before writing.
 
 ---
 
@@ -24,7 +25,7 @@ checks and direct user approval before writing.
   `user-invocable`, `allowed-tools`
 - [ ] Has at least two phase headings
 - [ ] Contains verdict keyword `COMPLETE`
-- [ ] Contains "May I write" language for `design/gdd/game-concept.md`
+- [ ] Contains package-level approval language for the concept-and-landing package
 - [ ] Documents fixed Lean policy and does not ask the user to choose full,
   lean, or solo mode
 - [ ] Links `references/prototype-validation.md` and
@@ -48,14 +49,16 @@ checks and direct user approval before writing.
 
 **Expected behavior:**
 
-1. Skill asks emotional anchor, taste, timeline, and dev-level questions.
+1. Skill asks only the package-level discovery questions needed for the user's
+   current clarity.
 2. Skill presents three distinct concept options.
 3. User selects or combines a concept.
 4. Skill develops core loop, pillars, anti-pillars, player type, scope, and
    Godot fit.
 5. Skill runs internal pillar, visual-anchor, feasibility, and scope checks.
-6. Skill asks before writing `design/gdd/game-concept.md`.
-7. Skill returns `COMPLETE` and recommends current core next steps.
+6. Skill presents the complete concept-and-landing package before writing.
+7. Skill asks once before writing package files.
+8. Skill returns `COMPLETE` and recommends one current core next step.
 
 **Assertions:**
 
@@ -63,7 +66,7 @@ checks and direct user approval before writing.
 - [ ] Does not parse `--review full|lean|solo`.
 - [ ] Visual Identity Anchor is included.
 - [ ] Scope table uses a concrete timeline/team-size estimate.
-- [ ] File is not written without user approval.
+- [ ] File is not written without package approval.
 
 ---
 
@@ -82,7 +85,8 @@ checks and direct user approval before writing.
 2. Skill defines one falsifiable prototype hypothesis.
 3. Skill chooses a path based on the risk: Godot engine for feel/physics,
    HTML/paper for logic, paper/spreadsheet for economy/rules.
-4. Skill asks before creating `prototypes/[concept-name]-concept/`.
+4. Skill includes `prototypes/[concept-name]-concept/` in the approved package
+   before creating it.
 5. Skill preserves verdict vocabulary `PROCEED`, `PIVOT`, or `KILL`.
 
 **Assertions:**
@@ -107,7 +111,7 @@ checks and direct user approval before writing.
 1. Skill reads the existing concept.
 2. Skill resumes or asks which concept section to revise.
 3. Skill preserves approved content unless the user asks to change it.
-4. Skill asks before rewriting the concept file.
+4. Skill asks for package/change approval before rewriting the concept file.
 
 **Assertions:**
 
@@ -128,22 +132,22 @@ checks and direct user approval before writing.
 **Expected behavior:**
 
 1. Skill presents the draft.
-2. Skill asks whether to write, revise, or stop.
+2. Skill asks whether to approve package, revise package, or stop.
 3. If approval is declined, no file is written.
 4. Skill returns `BLOCKED` or a clear stopped state.
 
 **Assertions:**
 
-- [ ] No file write without explicit approval.
-- [ ] User can revise a section before writing.
+- [ ] No file write without package approval.
+- [ ] User can revise the package before writing.
 - [ ] Stop state preserves what remains unresolved.
 
 ---
 
 ## Protocol Compliance
 
-- [ ] Uses Question -> Options -> Decision -> Draft -> Approval.
-- [ ] Uses `AskUserQuestion` for constrained decisions.
+- [ ] Uses Goal -> Scope -> Complete Package -> Approval -> Write.
+- [ ] Uses `AskUserQuestion` sparingly for package-level constrained decisions.
 - [ ] Keeps prototype details in direct references and loads them conditionally.
 - [ ] Route aliases are compatibility labels only, not content dependencies.
 - [ ] Fixed Lean policy replaces old full/solo branching.

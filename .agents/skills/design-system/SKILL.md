@@ -365,14 +365,20 @@ File content:
 
 ---
 
-## 4. Section-by-Section Design
+## 4. Complete GDD Package, Then Incremental Writing
 
-Walk through each section in order. For **each section**, follow this cycle:
+First produce a complete GDD package for the system: scope, section outline,
+major design decisions, dependencies, formulas/tuning needs, files to write,
+risk areas, and acceptance criteria. Ask for one approval of that package.
 
-### The Section Cycle
+After package approval, write sections incrementally to protect context, but do
+not ask for a new write approval for every section if the section stays inside
+the approved package.
+
+### The Package Cycle
 
 ```
-Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  Write
+Context -> Questions -> Options -> Decision -> Complete Package -> Approval -> Incremental Write
 ```
 
 1. **Context**: State what this section needs to contain, and surface any relevant
@@ -388,19 +394,16 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
 
 4. **Decision**: User picks an approach or provides custom direction.
 
-5. **Draft**: Write the section content in conversation text for review. Flag any
-   provisional assumptions about undesigned dependencies.
+5. **Complete Package**: Write the full system package in conversation text for
+   review. Flag provisional assumptions about undesigned dependencies.
 
-6. **Approval**: Immediately after the draft — in the SAME response — use
-   `AskUserQuestion`. **NEVER use plain text. NEVER skip this step.**
-   - Prompt: "Approve the [Section Name] section?"
-   - Options: `[A] Approve — write it to file` / `[B] Make changes — describe what to fix` / `[C] Start over`
+6. **Approval**: Ask once for the complete GDD package.
+   - Prompt: "Approve this GDD package and write the planned sections?"
+   - Options: `[A] Approve package` / `[B] Revise package` / `[C] Start over`
 
-   **The draft and the approval widget MUST appear together in one response.
-   If the draft appears without the widget, the user is left at a blank prompt
-   with no path forward — this is a protocol violation.**
+   The package and approval widget should appear together in one response.
 
-7. **Write**: Use the Edit tool to replace the placeholder with the approved content.
+7. **Write**: Use the Edit tool to replace placeholders with approved package content.
    **CRITICAL**: Always include the section heading in the `old_string` to ensure
    uniqueness — never match `[To be designed]` alone, as multiple sections use the
    same placeholder and the Edit tool requires a unique match. Use this pattern:
@@ -421,9 +424,10 @@ Context  ->  Questions  ->  Options  ->  Decision  ->  Draft  ->  Approval  ->  
    - If new (not in registry): flag it as a candidate for registry registration
      (will be handled in Phase 5).
 
-After writing each section, update `production/session-state/active.md` with the
-completed section name. Use Glob to check if the file exists — use Write to create
-it if absent, Edit to update it if present.
+After writing each meaningful section or milestone, update
+`production/session-state/active.md` with the completed section name. Use Glob to
+check if the file exists — use Write to create it if absent, Edit to update it if
+present.
 
 ### Section-Specific Guidance
 
@@ -898,23 +902,23 @@ disruption.
 
 ## Collaborative Protocol
 
-This skill follows the collaborative design principle at every step:
+This skill follows the package-first collaborative design principle:
 
-1. **Question -> Options -> Decision -> Draft -> Approval** for every section
+1. **Goal -> Scope -> Complete GDD Package -> Approval -> Incremental Write**
 2. **AskUserQuestion** at every decision point (Explain -> Capture pattern):
    - Phase 2: "Ready to start, or need more context?"
-   - Phase 3: "May I create the skeleton?"
-   - Phase 4 (each section): Design questions, approach options, draft approval
+   - Phase 3: "Approve package and create the skeleton?"
+   - Phase 4: Package-level design choices and package approval
    - Phase 5: "Run design review? Update systems index? What's next?"
-3. **"May I write to [filepath]?"** before the skeleton and before each section write
-4. **Incremental writing**: Each section is written to file immediately after approval
+3. **One write approval** for the skeleton and planned sections inside the approved package
+4. **Incremental writing**: Sections are written to file after package approval
 5. **Session state updates**: After every section write
 6. **Cross-referencing**: Every section checks existing GDDs for conflicts
 7. **Specialist routing**: Complex sections get expert agent input, presented to
    the user for decision — never written silently
 
 **Never** auto-generate the full GDD and present it as a fait accompli.
-**Never** write a section without user approval.
+**Never** write outside the approved package without user approval.
 **Never** contradict an existing approved GDD without flagging the conflict.
 **Always** show where decisions come from (dependency GDDs, pillars, user choices).
 

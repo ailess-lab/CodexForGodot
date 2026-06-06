@@ -319,7 +319,12 @@ Common blockers:
 
 ## Collaborative Protocol
 
-- **File writes are delegated** — all source code, test files, and evidence docs are written by sub-agents spawned via Task. Each sub-agent enforces the "May I write to [path]?" protocol individually. This orchestrator does not write files directly.
+- **Implementation package first** — before spawning write-capable sub-agents,
+  present the story implementation package: files to change, tests/evidence to
+  write, Godot validation commands, risks, and acceptance criteria mapping.
+  Ask once for approval of that package. Sub-agents may then write low-risk
+  source, test, and evidence files inside the approved scope without repeated
+  per-file prompts.
 - **Load before implementing** — do not start coding until all context is loaded
   (story, TR-ID, ADR, manifest, engine prefs). Incomplete context produces code
   that drifts from design.

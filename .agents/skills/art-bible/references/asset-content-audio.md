@@ -19,10 +19,10 @@ Extract named entities, enemies, characters, buildings, items, environments,
 VFX events, UI screens, HUD elements, and audio needs. Present a proposed
 inventory before writing.
 
-Write only after approval:
+Write after package approval:
 
 ```text
-May I write the entity inventory to `design/assets/entity-inventory.md`?
+Approve this entity/audio/UI inventory package and write `design/assets/entity-inventory.md`?
 ```
 
 Inventory sections:
@@ -72,13 +72,14 @@ For each asset, include:
   material/shader considerations, and performance budget notes.
 - Status: Needed / In Progress / Delivered / Deprecated.
 
-After approval, ask:
+After package approval, write the spec:
 
 ```text
-May I write the spec to `design/assets/specs/[target-name]-assets.md`?
+Approved package write: `design/assets/specs/[target-name]-assets.md`
 ```
 
-Then update `design/assets/asset-manifest.md` after separate approval:
+Then update `design/assets/asset-manifest.md` if it was included in the approved
+package. Ask again only if manifest changes were not part of the package:
 
 ```text
 May I update `design/assets/asset-manifest.md`?

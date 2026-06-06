@@ -290,11 +290,13 @@ Assign letters A, B, C… only to the options actually included. Mark the most l
 
 ## Collaborative Protocol
 
-Every section follows: **Question → Options → Decision → Draft (from art-director agent) → Approval → Write to file**
+Every art bible run follows: **Goal → Scope → Complete Art/Asset/UX Package → Approval → Incremental Write**
 
 - Never draft a section without first spawning the relevant agent(s)
-- Before every section write, ask: "May I write this approved section to `design/art/art-bible.md`?"
-- Write each section to file immediately after approval — do not batch
+- Present one complete package covering visual identity, asset implications, UX/audio direction when relevant, file writes, risks, and acceptance criteria
+- Ask once to approve the package and planned writes
+- Write sections incrementally after package approval to protect context; do not ask again for every section inside the approved package
+- Ask again only for out-of-scope, destructive, publishing, commit, or high-risk visual/technical direction changes
 - Surface all agent disagreements to the user — never silently resolve conflicts between art-director and technical-artist
 - The art bible is a constraint document: it restricts future decisions in exchange for visual coherence. Every section should feel like it narrows the solution space productively.
 

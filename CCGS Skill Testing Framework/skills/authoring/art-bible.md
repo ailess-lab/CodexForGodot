@@ -30,7 +30,7 @@ spec.
 - [ ] Has at least two phase headings
 - [ ] Contains verdict keywords: `COMPLETE` and at least one concern/blocking
   verdict such as `CONCERNS` or `BLOCKED`
-- [ ] Contains "May I write" language for authored artifacts
+- [ ] Contains package-level approval language for authored artifacts
 - [ ] Documents fixed Lean review policy and states that `AD-ART-BIBLE` is not a
   phase gate
 - [ ] Has a next-step handoff to current core Skills such as `/design-system`,
@@ -79,10 +79,9 @@ Checks:
 **Expected behavior:**
 
 1. Skill reads the game concept and technical preferences.
-2. Skill asks scope and reference-art questions before authoring.
-3. Skill authors the requested art bible sections through the collaborative
-   protocol.
-4. Skill asks before every section write to `design/art/art-bible.md`.
+2. Skill asks only package-level scope and reference-art questions before authoring.
+3. Skill presents a complete art/asset/UX package for approval.
+4. Skill writes approved sections incrementally without per-section micro-approval.
 5. Skill notes `AD-ART-BIBLE skipped -- Lean policy` and runs the internal
    sign-off checklist instead of a director phase gate.
 6. Skill records review status in the art bible header and returns `COMPLETE`
@@ -93,6 +92,7 @@ Checks:
 - [ ] Does not ask the user to choose full/lean/solo mode.
 - [ ] Does not run `AD-ART-BIBLE` as a phase gate.
 - [ ] Existing section content is preserved in retrofit mode.
+- [ ] Approval is package-level, not repeated for every section.
 - [ ] Uses current core next-step options, not old visible commands.
 - [ ] Does not read `.agents/skills-archive/`.
 

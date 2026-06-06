@@ -21,7 +21,7 @@ Verified automatically by `/skill-create-ccgs` internal static check — no fixt
 - [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
 - [ ] Has ≥2 phase headings
 - [ ] Contains verdict keywords: COMPLETE, BLOCKED, IN PROGRESS, NEEDS CHANGES
-- [ ] Contains "May I write" collaborative protocol language (story status + code files)
+- [ ] Contains implementation-package approval language (story status + code files)
 - [ ] Has a next-step handoff at the end (`/code-review` then `/story-done`)
 - [ ] Documents fixed Lean policy: no `--review full|lean|solo`, no `production/review-mode.txt`, no LP-CODE-REVIEW gate
 - [ ] Notes that implementation is delegated to specialist agents (not done directly)
@@ -176,7 +176,7 @@ It must not read, create, or normalize `production/review-mode.txt`.
 
 - [ ] Does NOT write source code directly — delegates to specialist agents
 - [ ] Reads all context (story, TR-ID, ADR, manifest, engine prefs) before implementation
-- [ ] "May I write" asked before updating story status and before writing code files
+- [ ] Story implementation package is approved before updating story status and writing code files
 - [ ] Does not read, create, or normalize review-mode state
 - [ ] Updates `production/session-state/active.md` after story completion
 - [ ] Ends with next-step handoff: `/code-review` then `/story-done`

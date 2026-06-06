@@ -4,8 +4,9 @@ purpose: "给 /help 和 /skill-create-ccgs 使用的精简 Skill 路由索引。
 stable_constraints:
   ecosystem: "Codex-only"
   engine_family: "Godot"
-  developer_mode: "AI full-chain developer"
+  developer_mode: "AI-assisted game developer; Codex executes the approved production functions"
   route_problem: "用户不会手动挑选大量命令；/help 必须给一个可解释的核心入口，而不是暴露完整工具清单。"
+  collaboration_style: "先确认职能覆盖和完整方案包，再执行范围内低风险工作；避免逐文件/逐章节微确认。"
 
 mutable_design_fields:
   rule: "以下字段只能从当前工件读取，不能写成常驻路由前提。"
@@ -16,8 +17,10 @@ mutable_design_fields:
     - "题材、类型、核心循环"
     - "输入方式与目标平台"
     - "当前性能预算与资源规格"
+    - "Codex 本项目负责的制作职能范围"
   sources:
     - "AGENTS.md"
+    - ".codex/docs/collaboration-profile.md"
     - ".codex/docs/technical-preferences.md"
     - "design/gdd/game-concept.md"
     - "design/gdd/systems-index.md"

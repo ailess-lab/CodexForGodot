@@ -58,17 +58,15 @@ Create a skeleton before section authoring when writing a full UX spec:
 ## Open Questions
 ```
 
-Ask before creating the skeleton:
+Include the skeleton in the approved UX package:
 
 ```text
-May I create the skeleton file at `design/ux/[screen-or-flow].md`?
+Approve this UX package and create `design/ux/[screen-or-flow].md`?
 ```
 
-Then author section by section. Before each section write:
-
-```text
-May I write the [section name] section to `[filepath]`?
-```
+Then author sections incrementally inside the approved package. Do not ask for a
+new write approval for each section unless the section changes scope or adds a
+high-risk decision not covered by the package.
 
 ## HUD Skeleton
 

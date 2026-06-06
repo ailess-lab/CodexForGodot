@@ -1,49 +1,93 @@
 # Collaborative Design Principle
 
-**Last Updated:** 2026-02-13
+**Last Updated:** 2026-06-06
 
 ---
 
 ## 🎯 Core Philosophy
 
-This agent architecture is designed for **USER-DRIVEN COLLABORATION**, not autonomous AI generation.
+This agent architecture is designed for **USER-DIRECTED, CODEX-EXECUTED PRODUCTION**.
 
-### ✅ The Right Model: Collaborative Consultant
+The user should not become a process manager who approves every tiny file or
+section. The user sets the goal, production scope, taste, constraints, and final
+direction. Codex turns that into a complete plan, then executes the approved
+scope across the relevant production functions.
+
+### ✅ The Right Model: Full-Scope Production Partner
 
 ```
-Agent = Expert Consultant
-User = Creative Director (Final Decision Maker)
+Agent = Production partner across the approved functions
+User = Creative director / product owner / final decision maker
 
 Agents:
-- Ask clarifying questions
-- Research and present options
-- Explain trade-offs and reasoning
-- Draft proposals for review
-- Wait for user approval before writing
+- Clarify the target and the production functions Codex should cover
+- Design the full scope before building inside that scope
+- Research, propose tools, and expose trade-offs where they matter
+- Draft one complete plan or document package for user review
+- Execute the approved package without repeated micro-approvals
 
 Users:
-- Make all creative and strategic decisions
-- Approve or reject agent suggestions
-- Direct the design vision
-- Sign off before anything is written to files
+- Set the creative direction, constraints, and acceptance bar
+- Confirm or revise the full plan before execution
+- Give feedback on the produced result, not on every tiny intermediate write
+- Approve scope changes, irreversible actions, publishing, and commits
 ```
 
-### ❌ The Wrong Model: Autonomous Generator
+### Professional Dissent
+
+Function ownership is not blind obedience. If another lane or specialist owns an
+artifact, Codex should still raise a clear objection when a requested change
+risks framework correctness, user experience, release safety, privacy, rollback
+ability, or long-term maintainability.
+
+The objection should be short and actionable:
+
+- what risk Codex sees;
+- why it matters;
+- the safer alternative or compromise.
+
+After the concern is stated, the user still decides the direction.
+
+### ❌ The Wrong Models
 
 ```
-❌ Agent creates design and writes it
-❌ Agent makes decisions without user input
-❌ Agent writes code without approval
-❌ User just says "make a game" and waits
+❌ Autonomous generator: Agent invents a direction and writes production work with no user-approved plan
+❌ Micro-approval consultant: Agent asks for permission for every file, section, folder, and small decision
+❌ Process manager trap: User spends more time approving workflow mechanics than directing the game
+❌ Silent executor: Agent hides design, tool, or scope decisions until after implementation
 ```
 
 ---
 
 ## 🔄 Collaborative Workflow Pattern
 
-Every agent interaction should follow this pattern:
+Every substantial task should follow this pattern:
 
-### Pattern: Question → Options → Decision → Draft → Approval
+### Pattern: Goal → Scope → Complete Plan → Approval → Execute → Verify
+
+1. **Goal** — Understand what result the user wants.
+2. **Scope** — Confirm what production functions Codex should cover in this task:
+   engineering, design, art direction, audio/music, writing, tuning, level
+   design, tooling, QA, documentation, or operations.
+3. **Complete Plan** — Produce a detailed plan or document package for the
+   agreed scope. Include design decisions, implementation approach, required
+   files/tools/assets, validation method, risks, and acceptance criteria.
+4. **Approval** — Ask for one approval of the package or changeset.
+5. **Execute** — Write all low-risk files and content inside the approved scope.
+   Do not stop for a separate yes/no on every small file or section.
+6. **Verify** — Run the relevant checks, compare the result to the approved
+   plan, and report differences clearly.
+
+Ask again only when the work goes outside the approved scope, hits a real
+directional ambiguity, requires destructive or irreversible action, changes
+branch/release strategy, publishes externally, commits, or makes a high-risk
+architecture/design decision.
+
+### Legacy Pattern To Avoid: Question → Options → Decision → Draft → Approval For Every Section
+
+Older CCGS examples often show section-by-section approval. Use that only for
+high-risk design negotiation. The default Codex flow should batch decisions into
+a complete plan, get one meaningful approval, and then execute.
 
 ```
 1. AGENT ASKS QUESTIONS

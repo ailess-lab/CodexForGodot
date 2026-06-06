@@ -8,8 +8,8 @@ archived old Skills.
 
 | Old Skill | Core value preserved |
 |---|---|
-| `create-epics` | EPIC path/index, layer ordering, GDD/ADR traceability, per-epic approval |
-| `create-stories` | story filename/frontmatter, story type, blocked ADR handling, per-story approval |
+| `create-epics` | EPIC path/index, layer ordering, GDD/ADR traceability, package approval |
+| `create-stories` | story filename/frontmatter, story type, blocked ADR handling, package approval |
 | `estimate` | S/M/L/XL or day-range estimate, confidence, uncertainty drivers, spike recommendation |
 | `sprint-status` | read-only sprint health report, status counts, blocker/stale-work detection |
 | `scope-check` | milestone/epic/sprint scope mapping and ON SCOPE / CONCERNS / SCOPE CREEP DETECTED verdict |
@@ -43,8 +43,9 @@ Stable constraints:
 - Do not read, create, or normalize `production/review-mode.txt`.
 - Producer/QA/director review is not spawned here; use internal feasibility
   checks and hand phase readiness to `/gate-check`.
-- Show drafts or summaries before any write approval.
-- Ask before writing every epic, story, sprint plan, status file, or retro.
+- Show the full artifact package or summary before write approval.
+- Ask once before writing all low-risk epics, stories, sprint files, status
+  files, or retros inside the approved package.
 
 ## Epic Creation
 
@@ -77,8 +78,8 @@ Within a layer, order by priority and dependency. Each EPIC.md should include:
 - suggested first stories
 
 If an epic already exists, offer update or skip; never silently overwrite.
-Ask `May I write` per epic, not once for a whole batch. Update
-`production/epics/index.md` only after approved epic writes.
+Present the full epic package and ask once before writing the approved batch.
+Update `production/epics/index.md` only after approved epic writes.
 
 ## Story Creation
 
@@ -113,9 +114,9 @@ Story status rules:
 - Missing TR or missing control manifest -> `Blocked` or `Needs Work`, depending
   on whether the missing artifact is required for implementation.
 
-Ask `May I write` per story. Blocked stories may still be written if the user
-approves, but they must stay visibly blocked and must not be implemented by
-`/dev-story` until unblocked.
+Present the full story package and ask once before writing the approved batch.
+Blocked stories may still be written if the user approves, but they must stay
+visibly blocked and must not be implemented by `/dev-story` until unblocked.
 
 ## Sprint Planning And Status File
 

@@ -17,7 +17,7 @@ These should pass before any behavioral testing:
 - [ ] Frontmatter has all required fields (`name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`)
 - [ ] 2+ phase headings found
 - [ ] At least one verdict keyword present (`PASS`, `FAIL`, `CONCERNS`, `APPROVED`, `BLOCKED`, `COMPLETE`, `READY`)
-- [ ] If `allowed-tools` includes Write/Edit: `"May I write"` language present
+- [ ] If `allowed-tools` includes Write/Edit: package-level approval language is present
 - [ ] Next-step handoff section present at end
 
 ---
@@ -127,10 +127,11 @@ These should pass before any behavioral testing:
 
 ## Protocol Compliance
 
-- [ ] Uses `"May I write"` before any file writes (or is read-only and skips this)
-- [ ] Presents findings/draft to user before requesting approval
+- [ ] Presents the full plan/package or changeset before requesting approval
+- [ ] Uses one approval for all low-risk writes inside the approved scope
+- [ ] Does not require repeated per-file or per-section confirmations unless risk justifies it
 - [ ] Ends with a recommended next step or follow-up action
-- [ ] Does not auto-create files without user approval
+- [ ] Does not create out-of-scope, destructive, publishing, commit, or high-risk files without explicit user approval
 
 ---
 

@@ -42,12 +42,18 @@ Each agent owns a specific domain, enforcing separation of concerns and quality.
 
 ## Collaboration Protocol
 
-**User-driven collaboration, not autonomous execution.**
-Every task follows: **Question -> Options -> Decision -> Draft -> Approval**
+**User-driven collaboration, not micro-approval.**
+Every substantial task follows: **Goal -> Scope -> Detailed Plan/Doc -> Approval -> Execute -> Verify**.
 
-- Agents MUST ask "May I write this to [filepath]?" before using Write/Edit tools
-- Agents MUST show drafts or summaries before requesting approval
-- Multi-file changes require explicit approval for the full changeset
+- Agents MUST clarify the user's goal and the production functions Codex should cover for this task, such as engineering, design, art direction, audio, writing, tuning, level design, tools, QA, or operations.
+- Agents MUST turn the agreed scope into a detailed plan or document before execution when the task changes design, architecture, production content, or multiple files.
+- Once the user approves the plan or changeset, Agents SHOULD execute all low-risk writes inside that approved scope without asking again for each small file, directory, or section.
+- Agents MUST ask again before going outside the approved scope, making irreversible/destructive changes, publishing, deleting, broad staging, changing branch strategy, or making high-risk architecture/design decisions.
+- Multi-file changes require one explicit approval for the full changeset, not repeated per-file approvals.
+- Ownership handoff does not remove professional dissent. If another lane or
+  agent owns an artifact, development/Z-platform should still raise concerns
+  when a requested change risks framework correctness, user experience,
+  release safety, privacy, rollback ability, or long-term maintainability.
 - No commits without user instruction or an explicit lane checkpoint policy
   recorded in the relevant lane. Checkpoint commits must stage only named files
   and include lane, scope, verification, and rollback information.

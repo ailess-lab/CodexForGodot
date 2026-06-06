@@ -89,7 +89,7 @@ Capture:
 Ask before writing:
 
 ```text
-May I write this report to `prototypes/[concept-name]-concept/REPORT.md`?
+Approve this prototype validation package and write `prototypes/[concept-name]-concept/REPORT.md`?
 ```
 
 Verdict meanings:

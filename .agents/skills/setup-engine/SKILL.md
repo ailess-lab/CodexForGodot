@@ -54,30 +54,37 @@ Which Godot 4.x version should this project pin?
 
 ---
 
-## Phase 2: Write Technical Preferences
+## Phase 2: Build Godot Setup Package
 
-准备 `.codex/docs/technical-preferences.md` 更新草稿，至少包含：
+准备一个 Godot setup package，而不是对每个文件分别询问。package 至少包含：
 
-- Engine: Godot `[version]`
-- Language: GDScript
-- Runtime target: Godot project with `project.godot`
-- Source paths: `src/`, `scenes/`, `scripts/`, `addons/` as applicable
-- Asset paths: `assets/`, `design/assets/`
-- Test paths: `tests/unit/`, `tests/integration/`, `tests/helpers/`
-- Godot command: local console executable if known, otherwise placeholder
-- Engine reference: `docs/engine-reference/godot/VERSION.md`
+- `.codex/docs/technical-preferences.md` update:
+  - Engine: Godot `[version]`
+  - Language: GDScript
+  - Runtime target: Godot project with `project.godot`
+  - Source paths: `src/`, `scenes/`, `scripts/`, `addons/` as applicable
+  - Asset paths: `assets/`, `design/assets/`
+  - Test paths: `tests/unit/`, `tests/integration/`, `tests/helpers/`
+  - Godot command: local console executable if known, otherwise placeholder
+  - Engine reference: `docs/engine-reference/godot/VERSION.md`
+- `docs/engine-reference/godot/VERSION.md` create/update if missing or stale.
+- Minimal `tests/` foundation if missing.
+- Runtime check plan and whether it can run now.
 
-写入前询问：
+Ask for one approval of the package:
 
 ```text
-May I update .codex/docs/technical-preferences.md with this Godot setup?
+Approve this Godot setup package and write the planned files?
 ```
+
+After approval, write all low-risk setup files in the package without asking
+again for each file or directory.
 
 ---
 
 ## Phase 3: Engine Reference
 
-如果 `docs/engine-reference/godot/VERSION.md` 缺失，创建最小版本记录：
+如果 `docs/engine-reference/godot/VERSION.md` 缺失，纳入 Phase 2 setup package 并创建最小版本记录：
 
 ```markdown
 # Godot Version Reference
@@ -101,13 +108,13 @@ Engine reference risk: verify APIs against official Godot docs before implementa
 
 ## Phase 4: Godot Runtime Check
 
-如果本机 Godot console path 已知，建议一次轻量检查：
+如果本机 Godot console path 已知且 `project.godot` 存在，运行一次轻量检查：
 
 ```text
 [Godot console] --headless --path . --quit
 ```
 
-不要强制运行。没有可执行路径时，只把它记录为 setup concern。
+这是只读验证，不需要额外批准。没有可执行路径或没有 `project.godot` 时，只把它记录为 setup concern。
 
 检查并报告：
 
@@ -122,7 +129,7 @@ Engine reference risk: verify APIs against official Godot docs before implementa
 
 这一步只建立测试基础，不替代 `/smoke-check`。
 
-如果 `tests/` 缺失，准备最小结构：
+如果 `tests/` 缺失，把最小结构纳入 Phase 2 setup package：
 
 ```text
 tests/
@@ -138,12 +145,6 @@ tests/
 - local/headless test command placeholder
 - unit/integration/manual evidence boundaries
 - where `/smoke-check` writes QA evidence
-
-写入前询问：
-
-```text
-May I create the minimal Godot test foundation under tests/?
-```
 
 如果项目已有自己的测试框架，不覆盖；只记录 detected framework 和 gaps。
 

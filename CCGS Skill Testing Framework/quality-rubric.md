@@ -38,7 +38,7 @@ read-only and must not trigger director gates during the analysis phase.
 
 | Metric | PASS criteria |
 |---|---|
-| **R1 — Read-only enforcement** | Skill does not modify the reviewed document without explicit user approval; any write operations (review logs, index updates) are gated behind "May I write" |
+| **R1 — Read-only enforcement** | Skill does not modify the reviewed document without explicit user approval; any write operations (review logs, index updates) are gated behind package/report approval |
 | **R2 — 8-section check** | Skill evaluates all 8 required GDD sections (or equivalent architectural sections) explicitly |
 | **R3 — Correct verdict vocabulary** | Verdict is exactly one of: APPROVED / NEEDS REVISION / MAJOR REVISION NEEDED (design) or PASS / CONCERNS / FAIL (architecture) |
 | **R4 — No director gates during analysis** | Skill does not spawn director gates during its analysis phases; post-analysis director review (as in architecture-review) is acceptable when the skill's scope and stakes warrant it |
@@ -56,14 +56,14 @@ read-only and must not trigger director gates during the analysis phase.
 
 **Skills**: design-system, art-bible, create-architecture
 
-Authoring skills create or update design documents collaboratively. Full GDD/UX
-authoring skills use a section-by-section cycle; lightweight authoring skills use
-a single-draft pattern appropriate to their smaller scope.
+Authoring skills create or update design documents collaboratively. They first
+produce a complete package for the approved scope, then write incrementally to
+protect context.
 
 | Metric | PASS criteria |
 |---|---|
-| **A1 — Section-by-section cycle** | Full authoring skills (design-system, art-bible) author one section at a time, presenting content for approval before proceeding to the next. Lightweight authoring paths inside create-architecture may draft the complete document then ask for approval when the artifact is narrow enough for a single review. |
-| **A2 — May-I-write per section** | Full authoring skills ask "May I write this to [filepath]?" before each section write. Lightweight skills ask once for the complete document. |
+| **A1 — Complete package first** | Full authoring skills (design-system, art-bible) present the complete document/package scope, major decisions, dependencies, risks, and acceptance criteria before writing. Lightweight authoring paths may draft the complete document directly when the artifact is narrow enough for a single review. |
+| **A2 — Package approval** | Authoring skills ask once for approval of the package or changeset, then write low-risk sections/files inside scope without repeated per-section confirmations. |
 | **A3 — Retrofit mode** | Skill detects if the target file already exists and offers to update specific sections rather than overwriting the whole document. New-file-only lightweight paths are exempt. |
 | **A4 — Lean gate boundary** | Inline director gates defined for this skill (e.g., CD-GDD-ALIGN, TD-ADR) are skipped by default; the skill uses internal checks and hands off to `/gate-check` for phase review |
 | **A5 — Skeleton-first** | Full authoring skills create a file skeleton with all section headers before filling content, to preserve progress on session interruption. Lightweight skills are exempt. |
@@ -104,7 +104,7 @@ with correct schema, respect layer/priority ordering, and gate before writing.
 |---|---|
 | **P1 — Correct output schema** | Each produced file follows the project template (EPIC.md, story frontmatter, etc.); skill references the template path |
 | **P2 — Layer/priority ordering** | Skills that produce epics or stories respect layer ordering (core → extended → meta) and priority fields |
-| **P3 — May-I-write before each artifact** | Skill asks "May I write [artifact]?" before creating each output file, not batch-approving all files at once |
+| **P3 — Package approval before artifacts** | Skill presents the full artifact package and asks once before creating all low-risk output files inside that scope; asks again only for out-of-scope or high-risk artifacts |
 | **P4 — Lean review boundary** | In-scope gates (PR-EPIC, QL-STORY-READY, LP-CODE-REVIEW, etc.) are not spawned by default; the skill records internal checks and handoffs instead |
 | **P5 — Reads before writes** | Skill reads the relevant GDD/ADR/manifest before producing artifacts to ensure alignment |
 
@@ -123,7 +123,7 @@ analysis and must ask before recommending any file writes.
 |---|---|
 | **AN1 — Read-only scan** | Analysis phase uses only Read/Glob/Grep tools; no Write or Edit during the scan itself |
 | **AN2 — Structured findings table** | Output includes a findings table or checklist (not prose only) with severity/priority per finding |
-| **AN3 — No auto-write** | Any suggested file writes (e.g., tech-debt register, fix patches) are gated behind "May I write" |
+| **AN3 — No auto-write outside scope** | Any suggested file writes (e.g., tech-debt register, fix patches) are gated behind report/package approval |
 | **AN4 — No director gates during analysis** | Analysis skills do not spawn director gates; they produce findings for human review |
 
 ---
@@ -160,7 +160,7 @@ to `/gate-check`.
 | **SP1 — Reads sprint/milestone state** | Skill reads `production/sprints/` or `production/milestones/` before producing output |
 | **SP2 — Internal feasibility** | PR-SPRINT and PR-MILESTONE are not spawned by default; sprint risk is checked internally and surfaced before write approval |
 | **SP3 — Structured output** | Output uses a consistent structure (velocity table, risk list, action items) rather than free prose |
-| **SP4 — Checkpoint boundary** | Skill never writes sprint files, milestone records, or git commits without "May I write" or an explicit lane checkpoint policy; checkpoint commits stage only named files |
+| **SP4 — Checkpoint boundary** | Skill never writes sprint files, milestone records, or git commits without package approval or an explicit lane checkpoint policy; checkpoint commits stage only named files |
 
 ---
 

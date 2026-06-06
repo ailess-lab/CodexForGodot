@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: "引导式游戏概念构思 — 从零想法到结构化的游戏概念文档。使用专业工作室构思技巧、玩家心理框架和结构化创意探索。"
+description: "游戏概念与落地方案包 — 从想法或草案收束到完整 concept package、验证范围、工具/资源/实现计划和验收标准。"
 argument-hint: "[genre/theme hint or open]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, WebSearch, Task, AskUserQuestion
@@ -55,18 +55,19 @@ must be defined before GDD work continues.
    - Read `design/gdd/game-concept.md` if it exists (resume, don't restart)
    - Read `design/gdd/game-pillars.md` if it exists (build on established pillars)
 
-3. **Run through ideation phases** interactively, asking the user questions at
-   each phase. Do NOT generate everything silently — the goal is **collaborative
-   exploration** where the AI acts as a creative facilitator, not a replacement
-   for the human's vision.
+3. **Build a complete package, not a drip-feed interview.** Ask only the
+   questions needed to lock direction and scope. Do NOT ask at every minor
+   phase. The goal is collaborative design followed by Codex execution: the user
+   provides direction and feedback; Codex produces the detailed concept and
+   landing plan.
 
-   **Use `AskUserQuestion`** at key decision points throughout brainstorming:
-   - Constrained taste questions (genre preferences, scope, team size)
-   - Concept selection ("Which 2-3 concepts resonate?") after presenting options
-   - Direction choices ("Develop further, explore more, or prototype?")
-   - Pillar ranking after concepts are refined
-   Write full creative analysis in conversation text first, then use
-   `AskUserQuestion` to capture the decision with concise labels.
+   **Use `AskUserQuestion` sparingly** at package-level decision points:
+   - Open-ended idea discovery when the user has no direction.
+   - Choosing between genuinely different concept directions.
+   - Approving the complete concept-and-landing package before writes.
+   - Deciding a major scope pivot.
+   Do not use it for every pillar, visual phrase, speed knob, file path, or
+   small section once the direction is clear.
 
    Professional studio brainstorming principles to follow:
    - Withhold judgment — no idea is bad during exploration
@@ -75,12 +76,32 @@ must be defined before GDD work continues.
    - Use constraints as creative fuel — limitations often produce the best ideas
    - Time-box each phase — keep momentum, don't over-deliberate early
 
+4. **Output shape: Concept And Landing Package.** Before writing files, present
+   one package that includes:
+   - game concept, core fantasy, pillars, anti-pillars, player promise;
+   - first complete playable/validation scope, not a vague MVP drip-feed;
+   - design details needed inside that scope: controls, loop, camera, feedback,
+     progression, content beats, failure/success rules;
+   - production functions Codex should cover, read from
+     `.codex/docs/collaboration-profile.md` when present;
+   - required Godot scenes/scripts/resources/tools, placeholder art direction,
+     audio/music direction, text/narrative needs, tuning needs, QA checks;
+   - risks, assumptions, acceptance criteria, and verification commands.
+
+   Ask for one approval of this package. After approval, write all low-risk
+   concept/prototype planning files in that scope without repeated per-file
+   confirmations.
+
 ---
 
 ## Phase 1: Creative Discovery
 
-Start by understanding the person, not the game. Ask these questions
-conversationally (not as a checklist):
+Start by understanding the target experience and the production context. If the
+user already supplied a concept draft, do not run a full taste interview. Summarize
+what is already clear, identify the 1-3 missing package-level decisions, and ask
+only those.
+
+For open-ended ideation, ask these questions conversationally (not as a checklist):
 
 **Emotional anchors**:
 - What's a moment in a game that genuinely moved you, thrilled you, or made
@@ -105,8 +126,9 @@ Bundle these into a single multi-tab `AskUserQuestion` with these exact tab labe
 Use exactly these tab names — do not rename or duplicate them.
 
 **Synthesize** the answers into a **Creative Brief** — a 3-5 sentence
-summary of the person's emotional goals, taste profile, and constraints.
-Read the brief back and confirm it captures their intent.
+summary of the emotional goals, taste profile, production function coverage, and
+constraints. If the brief is obvious from the user's draft, present it and move
+directly into the package instead of asking for a separate confirmation.
 
 ---
 
@@ -165,19 +187,22 @@ Never pressure toward a choice — let them sit with it.
 
 ## Phase 3: Core Loop Design
 
-For the chosen concept, use structured questioning to build the core loop.
-The core loop is the beating heart of the game — if it isn't fun in
-isolation, no amount of content or polish will save the game.
+For the chosen concept, build the core loop as part of the package. The core loop
+is the beating heart of the game, but do not turn it into a long sequence of
+small approvals.
 
 **30-Second Loop** (moment-to-moment):
 
-Ask these as `AskUserQuestion` calls — derive the options from the chosen concept, don't hardcode them:
+If the concept is unclear, ask one bundled question covering the most important
+loop decisions. Derive the options from the concept, don't hardcode them:
 
 1. **Core action feel** — prompt: "What's the primary feel of the core action?" Generate 3-4 options that fit the concept's genre and tone, plus a free-text escape (`I'll describe it`).
 
 2. **Key design dimension** — identify the most important design variable for this specific concept (e.g., world reactivity, pacing, player agency) and ask about it. Generate options that match the concept. Always include a free-text escape.
 
-After capturing answers, analyze: Is this action intrinsically satisfying? What makes it feel good? (Audio feedback, visual juice, timing satisfaction, tactical depth?)
+After capturing answers, analyze: Is this action intrinsically satisfying? What
+makes it feel good? Include audio feedback, visual feedback, timing satisfaction,
+tactical depth, camera, tuning knobs, and verification criteria in the package.
 
 **5-Minute Loop** (short-term goals):
 - What structures the moment-to-moment play into cycles?
@@ -220,15 +245,10 @@ Then define **3+ anti-pillars** (what this game is NOT):
   be cool if..." features that don't serve the core vision
 - Frame as: "We will NOT do [thing] because it would compromise [pillar]"
 
-**Pillar confirmation**: After presenting the full pillar set, use `AskUserQuestion`:
-- Prompt: "Do these pillars feel right for your game?"
-- Options: `[A] Lock these in` / `[B] Rename or reframe one` / `[C] Swap a pillar out` / `[D] Something else`
-
-If the user selects B, C, or D, make the revision, then use `AskUserQuestion` again:
-- Prompt: "Pillars updated. Ready to lock these in?"
-- Options: `[A] Lock these in` / `[B] Revise another pillar` / `[C] Something else`
-
-Repeat until the user selects [A] Lock these in.
+**Pillar handling**: Present pillars, anti-pillars, and visual anchor together
+inside the complete package. Ask for package approval once. If the user asks to
+revise a pillar, revise the package and ask for package approval again. Do not
+run a separate pillar approval loop.
 
 `CD-PILLARS` and `AD-CONCEPT-VISUAL` are not invoked as separate gates. Do not
 spawn director agents here; run the internal pillar/visual-anchor check below and
@@ -242,16 +262,9 @@ Run an internal pillar/visual-anchor check:
 - The visual direction can be derived from the pillar set without contradicting
   platform or scope constraints.
 
-If the internal check has concerns, surface them before moving on. Then present a
-two-tab `AskUserQuestion`:
-- Tab **"Pillars"**: `Lock in as-is` / `Revise [specific pillar]` /
-  `Discuss further`.
-- Tab **"Visual anchor"**: 2-3 named visual direction options derived from the
-  pillars + `Combine elements across directions` + `Describe my own direction`.
-
-The user's selected visual anchor is stored as the **Visual Identity Anchor**. It
-will be written into the game-concept document and becomes the foundation of the
-art bible.
+If the internal check has concerns, surface them in the package before asking
+for approval. The visual anchor is stored as the **Visual Identity Anchor** and
+becomes the foundation of the art bible.
 
 ---
 
@@ -274,10 +287,10 @@ who this game is actually for:
 
 Ground the concept in reality:
 
-- **Target platform**: Use `AskUserQuestion` — "What platforms are you targeting for this game?"
-  Options: `PC (Steam / Epic)` / `Mobile (iOS / Android)` / `Console` / `Web / Browser` / `Multiple platforms`
-  Record the answer — it shapes Godot export risk, UI/input assumptions, and scope.
-  Do not recommend another engine from this Skill. This fork is Godot-focused.
+- **Target platform**: If already stated in the user's brief or existing docs,
+  record it without asking. If missing, ask once because it affects Godot export
+  risk, UI/input assumptions, and scope. Do not recommend another engine from
+  this Skill. This fork is Godot-focused.
 
 - **Godot fit**: note any Godot-specific implications from platform and scope:
   export target, input model, asset volume, UI scale, performance budget, and
@@ -326,41 +339,36 @@ scope risk before writing the concept.
    This section is the seed of the art bible — it captures the "everything must
    move" decision before it can be forgotten between sessions.
 
-5. Use `AskUserQuestion` for write approval:
-- Prompt: "Game concept is ready. May I write it to `design/gdd/game-concept.md`?"
-- Options: `[A] Yes — write it` / `[B] Not yet — revise a section first`
+5. Use one approval for the complete concept-and-landing package:
+- Prompt: "Concept and landing package is ready. Approve this package and write the planned files?"
+- Options: `[A] Yes — write package` / `[B] Revise package first`
 
-If [B]: ask which section to revise using `AskUserQuestion` with options: `Elevator Pitch` / `Core Fantasy & Unique Hook` / `Pillars` / `Core Loop` / `MVP Definition` / `Scope Tiers` / `Risks` / `Something else — I'll describe`
+If [B]: ask what to revise at package level. Offer concise options:
+`Core direction` / `Scope` / `Controls or loop` / `Art/audio direction` /
+`Implementation plan` / `Risks or acceptance criteria` / `Something else`.
 
-After revising, show the updated section as a diff or clear before/after, then use `AskUserQuestion` — "Ready to write the updated concept document?"
-Options: `[A] Yes — write it` / `[B] Revise another section`
-Repeat until the user selects [A].
+After revising, show the changed package summary, then ask once:
+`Ready to write the updated package?`
+Options: `[A] Yes — write package` / `[B] Revise again`
 
-If yes, generate the document using the template at `.codex/docs/templates/game-concept.md`, fill in ALL sections from the brainstorm conversation, and write the file, creating directories as needed.
+If yes, generate the document using the template at
+`.codex/docs/templates/game-concept.md`, fill in ALL sections from the package,
+and write the file, creating directories as needed. If the approved package also
+includes a prototype/validation plan, write the low-risk planning files named in
+the package without asking again.
 
 **Scope consistency rule**: The "Estimated Scope" field in the Core Identity table must match the full-vision timeline from the Scope Tiers section — not just say "Large (9+ months)". Write it as "Large (X–Y months, solo)" or "Large (X–Y months, team of N)" so the summary table is accurate.
 
-6. **Suggest next steps** (in this order — this is the professional studio
-   pre-production pipeline). List ALL steps — do not abbreviate or truncate:
-
-**Path A — Design-First** (recommended if the concept is well-defined):
-   1. "Run `/setup-engine` to configure the engine and populate version-aware reference docs"
-   2. "Run `/art-bible` to create the visual identity specification — do this BEFORE writing GDDs. **The art bible is required before the Technical Setup gate.** It gates asset production and shapes technical architecture decisions (rendering, VFX, UI systems)."
-   3. "Use `/design-system design/gdd/game-concept.md` to validate concept completeness before going downstream"
-   4. "Discuss vision with the `creative-director` agent for pillar refinement"
-   5. "Decompose the concept into individual systems with `/design-system` — maps dependencies, assigns priorities, and creates the systems index"
-   6. "Author per-system GDDs with `/design-system` — guided, section-by-section GDD writing for each system identified in step 5"
-   7. "Plan the technical architecture with `/create-architecture` — produces the master architecture blueprint and Required ADR list"
-   8. "Record key architectural decisions with `/create-architecture (×N)` — write one ADR per decision in the Required ADR list from `/create-architecture`"
-   9. "Run `/create-architecture` — bootstraps the TR registry and Requirements Traceability Matrix from your GDDs and ADRs (required before the Pre-Production gate)"
-   10. "Validate readiness to advance with `/gate-check` — phase gate before committing to production"
-
-**Path B — Prototype-First** (use if the core mechanic is unproven or the concept needs validation):
-   1. "Run `/setup-engine` to configure the engine"
-   2. "Run `/brainstorm [core-mechanic]` — validate the core idea is fun before writing any GDDs (1–3 days throwaway code)"
-   3. "If prototype PROCEEDS: run `/art-bible`, then continue with Path A steps 5–10 above, using prototype learnings to inform your GDDs"
-   4. "If prototype PIVOTS: return to `/brainstorm` with the learnings and reshape the concept"
-   5. "After full design and architecture, build the `/sprint-plan` to validate production readiness before committing to sprints"
+6. **Suggest one next step**, not a long pipeline dump. Pick based on current
+   gaps:
+   - If engine/tooling is not pinned: `/setup-engine`.
+   - If the approved package needs visual/audio asset direction before coding:
+     `/art-bible`.
+   - If systems need detailed GDDs: `/design-system`.
+   - If the first playable scope is ready for technical planning:
+     `/create-architecture`.
+   - If a scoped Godot prototype plan is already approved and tooling is ready:
+     `/sprint-plan` or `/dev-story` depending on existing production artifacts.
 
 7. **Output a summary** with the chosen concept's elevator pitch, pillars,
    primary player type, engine recommendation, biggest risk, and file path.

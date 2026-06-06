@@ -2,182 +2,118 @@
 
 ## Skill Summary
 
-`/setup-engine` configures the project's engine, language, rendering backend,
-physics engine, specialist agent assignments, and naming conventions by
-populating `technical-preferences.md`. It accepts an optional engine argument
-(e.g., `/setup-engine godot`) to skip the engine-selection step. For each
-section of `technical-preferences.md`, the skill presents a draft and asks
-"May I write to `technical-preferences.md`?" before updating.
+`/setup-engine` is the Godot-only technical setup entrypoint. It resolves the
+pinned Godot version, GDScript baseline, local console executable, engine
+reference, runtime check status, and minimal test foundation. It produces one
+Godot setup package and asks for one approval before writing all low-risk setup
+files in that package.
 
-The skill also populates the specialist routing table (file extension → agent
-mappings) based on the chosen engine. It has no director gates — configuration
-is a technical utility task. The verdict is always COMPLETE when the file is
-fully written.
+The skill does not offer Unity or Unreal configuration in this fork.
 
 ---
 
-## Static Assertions (Structural)
+## Static Assertions
 
-Verified automatically by `/skill-create-ccgs` internal static check — no fixture needed.
-
-- [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`
-- [ ] Has ≥2 phase headings
-- [ ] Contains verdict keyword: COMPLETE
-- [ ] Contains "May I write" collaborative protocol language before updating technical-preferences.md
-- [ ] Has a next-step handoff (e.g., `/brainstorm` or `/start` depending on flow)
-
----
-
-## Director Gate Checks
-
-None. `/setup-engine` is a technical configuration skill. No director gates apply.
+- [ ] Has required frontmatter fields: `name`, `description`, `argument-hint`,
+  `user-invocable`, `allowed-tools`
+- [ ] Has at least two phase headings
+- [ ] Contains verdict keywords: `COMPLETE`, `CONCERNS`, and `BLOCKED`
+- [ ] Contains package-level approval language before writing setup files
+- [ ] Describes Godot-only behavior and rejects multi-engine setup
+- [ ] Has a next-step handoff such as `/brainstorm`, `/design-system`,
+  `/create-architecture`, or `/smoke-check`
 
 ---
 
 ## Test Cases
 
-### Case 1: Godot 4 + GDScript — Full engine configuration
+### Case 1: Godot Setup Package
 
 **Fixture:**
-- `technical-preferences.md` contains only placeholders
-- Engine argument provided: `godot`
 
-**Input:** `/setup-engine godot`
-
-**Expected behavior:**
-1. Skill skips engine-selection step (argument provided)
-2. Skill presents language options for Godot: GDScript or C#
-3. User selects GDScript
-4. Skill drafts all engine sections: engine/language/rendering/physics fields,
-   naming conventions (snake_case for GDScript), specialist assignments
-   (godot-specialist, gdscript-specialist, godot-shader-specialist, etc.)
-5. Skill populates the routing table: `.gd` → gdscript-specialist, `.gdshader` →
-   godot-shader-specialist, `.tscn` → godot-specialist
-6. Skill asks "May I write to `technical-preferences.md`?"
-7. File is written after approval; verdict is COMPLETE
-
-**Assertions:**
-- [ ] Engine field is set to Godot 4 (not a placeholder)
-- [ ] Language field is set to GDScript
-- [ ] Naming conventions are GDScript-appropriate (snake_case)
-- [ ] Routing table includes `.gd`, `.gdshader`, and `.tscn` entries
-- [ ] Specialists are assigned (not placeholders)
-- [ ] "May I write" is asked before writing
-- [ ] Verdict is COMPLETE
-
----
-
-### Case 2: Unity + C# — Unity-specific configuration
-
-**Fixture:**
-- `technical-preferences.md` contains only placeholders
-- Engine argument provided: `unity`
-
-**Input:** `/setup-engine unity`
-
-**Expected behavior:**
-1. Skill sets engine to Unity, language to C#
-2. Naming conventions are C#-appropriate (PascalCase for classes, camelCase for fields)
-3. Specialist assignments reference unity-specialist, csharp-specialist
-4. Routing table: `.cs` → csharp-specialist, `.asmdef` → unity-specialist,
-   `.unity` (scene) → unity-specialist
-5. Skill asks "May I write to `technical-preferences.md`?" and writes on approval
-
-**Assertions:**
-- [ ] Engine field is set to Unity (not Godot or Unreal)
-- [ ] Language field is set to C#
-- [ ] Naming conventions reflect C# conventions
-- [ ] Routing table includes `.cs` and `.unity` entries
-- [ ] Verdict is COMPLETE
-
----
-
-### Case 3: Unreal + Blueprint — Unreal-specific configuration
-
-**Fixture:**
-- `technical-preferences.md` contains only placeholders
-- Engine argument provided: `unreal`
-
-**Input:** `/setup-engine unreal`
-
-**Expected behavior:**
-1. Skill sets engine to Unreal Engine 5, primary language to Blueprint (Visual Scripting)
-2. Specialist assignments reference unreal-specialist, blueprint-specialist
-3. Routing table: `.uasset` → blueprint-specialist or unreal-specialist,
-   `.umap` → unreal-specialist
-4. Performance budgets are pre-set with Unreal defaults (e.g., higher draw call budget)
-5. Skill asks "May I write" and writes on approval; verdict is COMPLETE
-
-**Assertions:**
-- [ ] Engine field is set to Unreal Engine 5
-- [ ] Routing table includes `.uasset` and `.umap` entries
-- [ ] Blueprint specialist is assigned
-- [ ] Verdict is COMPLETE
-
----
-
-### Case 4: Engine Already Configured — Offers to reconfigure specific sections
-
-**Fixture:**
-- `technical-preferences.md` has engine set to Godot 4 with all fields populated
-- No engine argument provided
+- `.codex/docs/technical-preferences.md` exists with placeholders
+- `docs/engine-reference/godot/VERSION.md` exists or can be created
+- `tests/` is missing
+- User provides or project docs contain a Godot 4.x version
 
 **Input:** `/setup-engine`
 
 **Expected behavior:**
-1. Skill reads `technical-preferences.md` and detects fully configured engine (Godot 4)
-2. Skill reports: "Engine already configured as Godot 4 + GDScript"
-3. Skill presents options: reconfigure all, reconfigure specific section only
-   (Engine/Language, Naming Conventions, Specialists, Performance Budgets)
-4. User selects "Reconfigure Performance Budgets only"
-5. Only the performance budget section is updated; all other fields unchanged
-6. Skill asks "May I write to `technical-preferences.md`?" and writes on approval
+
+1. Skill resolves Godot version from argument, `AGENTS.md`, technical
+   preferences, or engine reference.
+2. Skill prepares one setup package covering technical preferences, engine
+   reference, test foundation, runtime check status, and concerns.
+3. Skill asks once to approve the package and planned writes.
+4. After approval, Skill writes all low-risk setup files in the package without
+   repeated per-file confirmations.
+5. Skill returns `COMPLETE` or `CONCERNS` depending on whether `project.godot`
+   and console validation are available.
 
 **Assertions:**
-- [ ] Skill does NOT overwrite all fields when only a section update was requested
-- [ ] User is offered section-specific reconfiguration
-- [ ] Only the selected section is modified in the written file
-- [ ] Verdict is COMPLETE
+
+- [ ] Engine field is set to Godot 4.x or a pinned Godot version.
+- [ ] Language field is GDScript.
+- [ ] Godot command is recorded if known.
+- [ ] `tests/unit/`, `tests/integration/`, `tests/helpers/`, and `tests/README.md`
+  are included when missing.
+- [ ] Approval is package-level, not one prompt per file.
+- [ ] Verdict is `COMPLETE` or `CONCERNS`.
 
 ---
 
-### Case 5: Director Gate Check — No gate; setup-engine is a utility skill
+### Case 2: Missing Project File
 
 **Fixture:**
-- Fresh project with no engine configured
 
-**Input:** `/setup-engine godot`
+- Godot console executable is known.
+- `project.godot` is missing.
+
+**Input:** `/setup-engine`
 
 **Expected behavior:**
-1. Skill completes full engine configuration
-2. No director agents are spawned at any point
-3. No gate IDs appear in output
+
+1. Skill records runtime check command and status.
+2. Skill does not run `--headless --path . --quit` because no Godot project file
+   exists.
+3. Skill reports the missing project file as a setup concern.
 
 **Assertions:**
-- [ ] No director gate is invoked
-- [ ] No gate skip messages appear
-- [ ] Verdict is COMPLETE without any gate check
+
+- [ ] Runtime check is not falsely reported as passing.
+- [ ] `project.godot` missing is named explicitly.
+- [ ] Verdict is `CONCERNS`.
+
+---
+
+### Case 3: Multi-Engine Request
+
+**Fixture:**
+
+- User requests Unity, Unreal, or another engine.
+
+**Input:** `/setup-engine unity`
+
+**Expected behavior:**
+
+1. Skill explains this fork is Godot-focused.
+2. Skill does not write Unity/Unreal technical preferences.
+3. Skill returns `BLOCKED` or a clear redirection.
+
+**Assertions:**
+
+- [ ] No Unity/Unreal routing table is written.
+- [ ] Godot-only constraint is stated.
+- [ ] No files are changed for the unsupported engine request.
 
 ---
 
 ## Protocol Compliance
 
-- [ ] Presents draft configuration before asking to write
-- [ ] Asks "May I write to `technical-preferences.md`?" before writing
-- [ ] Respects engine argument when provided (skips selection step)
-- [ ] Detects existing config and offers partial reconfigure
-- [ ] Routing table is populated for all key file types for the chosen engine
-- [ ] Verdict is COMPLETE after file is written
-
----
-
-## Coverage Notes
-
-- Godot 4 + C# (instead of GDScript) follows the same flow as Case 1 with
-  different naming conventions and the godot-csharp-specialist assignment.
-  This variant is not separately tested.
-- The engine-version-specific guidance (e.g., Godot 4.6 knowledge gap warning
-  from VERSION.md) is surfaced by the skill but not assertion-tested here.
-- Performance budget defaults per engine are noted as engine-specific but
-  exact default values are not assertion-tested.
+- [ ] Presents the full Godot setup package before asking for approval.
+- [ ] Uses one approval for all low-risk setup writes inside the approved package.
+- [ ] Runs read-only validation without extra approval when `project.godot` and
+  Godot console are available.
+- [ ] Does not recommend old multi-engine commands.
+- [ ] Ends with a concise setup summary and next step.
 

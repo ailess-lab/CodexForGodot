@@ -20,7 +20,7 @@ specs.
 - [ ] Frontmatter has all required fields (`name`, `description`, `argument-hint`, `user-invocable`, `allowed-tools`)
 - [ ] 2+ phase headings found
 - [ ] Verdict keywords present (`COMPLETE`, `BLOCKED`, `CONCERNS`, `ON SCOPE`, `SCOPE CREEP DETECTED`, `AT RISK`)
-- [ ] `"May I write"` language present for epics, stories, sprint files, status files, and retrospectives
+- [ ] Package-level approval language present for epics, stories, sprint files, status files, and retrospectives
 - [ ] Next-step handoff section present
 - [ ] Argument hint accepts natural-language goals instead of forcing command parameters
 - [ ] Reference loading rules use direct `references/planning-epics-stories.md`, not `.agents/skills-archive/`
@@ -84,13 +84,14 @@ specs.
 2. Skill loads `references/planning-epics-stories.md`.
 3. Skill reads GDDs, architecture, ADRs, TR registry, and control manifest.
 4. Skill drafts epics in Foundation -> Core -> Feature -> Presentation order.
-5. Skill asks `May I write` per epic, not once for all epics.
+5. Skill asks once for the full epic package.
 6. Skill updates `production/epics/index.md` after approved epic writes.
 
 **Assertions**:
 - [ ] Each EPIC.md includes layer, source GDD, TR/GDD requirements, governing ADRs, scope, dependencies, risks, and Definition of Done
 - [ ] Existing epic files are not silently overwritten
 - [ ] User sees each epic draft before approval
+- [ ] Approval is package-level, not repeated per epic
 - [ ] Next step recommends `/sprint-plan create stories for [epic]`
 
 **Case Verdict**: PASS / FAIL / PARTIAL
@@ -113,13 +114,14 @@ specs.
 3. Skill drafts story files using `story-NNN-[slug].md`.
 4. Story covered by Accepted ADR is `Ready`.
 5. Story covered by Proposed ADR is `Blocked` and names the ADR.
-6. Skill asks `May I write` per story.
+6. Skill asks once for the full story package.
 
 **Assertions**:
 - [ ] Story frontmatter includes title, epic, layer, priority, status, story type, TR-ID, ADR references, acceptance criteria, DoD, blockers, and test evidence path
 - [ ] Blocked story recommends `/create-architecture ADR: [title]`, not old `/architecture-decision`
 - [ ] Blocked stories may be written only as visibly blocked
 - [ ] Skill does not start implementation
+- [ ] Approval is package-level, not repeated per story
 
 **Case Verdict**: PASS / FAIL / PARTIAL
 

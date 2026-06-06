@@ -138,7 +138,7 @@ delegates vs. handles directly. Include which gates it triggers (if any).]
 
 - [ ] Stays within declared domain — no unilateral cross-domain changes
 - [ ] Escalates conflicts to correct parent
-- [ ] Uses `"May I write"` before file writes (or is read-only)
+- [ ] Uses package-level approval before file writes (or is read-only)
 - [ ] Presents findings before requesting approval
 - [ ] Does not skip tiers in the delegation hierarchy
 

@@ -38,10 +38,10 @@ Flow:
 4. Map dependencies and detect circular dependencies.
 5. Assign priorities from MVP relevance, pillar importance, dependency position,
    and risk.
-6. Ask:
+6. Ask for approval of the systems-index package:
 
 ```text
-May I write the systems index to `design/gdd/systems-index.md`?
+Approve this systems-index package and write `design/gdd/systems-index.md`?
 ```
 
 Verdict: `COMPLETE` when written, `BLOCKED` if the user declines the write.
@@ -81,14 +81,14 @@ Minimum sections:
 - Acceptance criteria.
 - GDD update required? yes/no with reason.
 
-Ask before writing:
+Ask for approval of the quick-spec package:
 
 ```text
-May I write this Quick Design Spec to `design/quick-specs/[name]-[date].md`?
+Approve this Quick Design Spec package and write `design/quick-specs/[name]-[date].md`?
 ```
 
-If the patch changes a tracked system, ask separately before updating
-`design/gdd/systems-index.md`.
+If the patch changes a tracked system, update `design/gdd/systems-index.md` when
+that update was included in the approved package. Ask again only if it was not.
 
 Verdicts: `COMPLETE`, `REDIRECTED`, or `BLOCKED`.
 
