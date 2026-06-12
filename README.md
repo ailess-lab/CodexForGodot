@@ -173,6 +173,22 @@ Each window has its own state file. Close it, reopen tomorrow — `/window-ccgs 
 
 ---
 
+## It Converges - You Don't Babysit
+
+Multi-agent systems share one failure mode: they loop. Infinite retries, never settling, burning turns until a human steps in. You end up watching the agents more than directing them.
+
+CodexForGodot's director kills that loop. Every work order it ships carries three things:
+
+| | What it does |
+|---|---|
+| **Falsifiable pass-gate** | A verifiable acceptance bar - not "looks okay," but "reads as diving into cloud, not hitting a wall." The pipeline can tell if it passed. |
+| **Bounded retry knobs** | Which parameters may be tuned, and a hard cap (e.g. 2). Miss the gate past that -> escalate, don't grind. |
+| **Headless smoke receipts** | Windows report back with file:line wiring and a stack of passing smoke tests, not screenshots. |
+
+You stay the producer: give the direction, the pipeline converges to spec in bounded turns. You're not watching it - you're playing the build it hands back.
+
+---
+
 ## Upgrading from CCGS
 
 Already using CCGS? See [UPGRADING.md](UPGRADING.md) for migration options. Key changes:
